@@ -17,6 +17,6 @@ public class MarketStartup {
     }
     
     static void main(String[] args){
-        
+        new MarketPlace();
     }
 }

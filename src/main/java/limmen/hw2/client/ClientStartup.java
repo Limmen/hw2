@@ -15,6 +15,6 @@ public class ClientStartup {
     }
     
     static void main(String[] args){
-        
+        new ClientStartup();
     }
 }

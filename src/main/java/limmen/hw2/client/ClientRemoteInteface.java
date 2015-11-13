@@ -11,4 +11,6 @@ package limmen.hw2.client;
  */
 public interface ClientRemoteInteface {
     
+    public void wishNotification();
+    public void itemNotification();
 }
