@@ -13,4 +13,6 @@ public interface Client {
     
     public void wishNotification();
     public void itemNotification();
+    public String getName();
+    
 }

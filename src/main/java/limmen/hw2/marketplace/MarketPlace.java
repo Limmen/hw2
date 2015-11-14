@@ -18,8 +18,8 @@ public interface MarketPlace extends Remote {
     
     public Item Buy(Item item, Client client) throws RemoteException;
     public void Sell(Item item, Client client) throws RemoteException;
-    public void register(String name) throws RemoteException;
-    public void deregister(String name) throws RemoteException;
+    public void register(Client client) throws RemoteException;
+    public void deregister(Client client) throws RemoteException;
     public ArrayList<ListedItem> listItems() throws RemoteException;
     public void wish(Item item, Client client) throws RemoteException;
     

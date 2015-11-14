@@ -15,7 +15,7 @@ import limmen.hw2.client.Client;
  */
 public class MarketPlaceImpl implements MarketPlace {
 
-    ArrayList<String> clients;
+    ArrayList<Client> clients;
     ArrayList<ListedItem> listedItems;
     ArrayList<Wish> wishes;
     
@@ -37,15 +37,15 @@ public class MarketPlaceImpl implements MarketPlace {
     }
 
     @Override
-    public void register(String name) throws RemoteException {
-        if(!clients.contains(name))
-            clients.add(name);
+    public void register(Client client) throws RemoteException {
+        if(!clients.contains(client))
+            clients.add(client);
     }
 
     @Override
-    public void deregister(String name) throws RemoteException {
-        if(clients.contains(name))
-            clients.remove(name);
+    public void deregister(Client client) throws RemoteException {
+        if(clients.contains(client))
+            clients.remove(client);
     }
 
     @Override

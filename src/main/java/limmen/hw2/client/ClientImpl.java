@@ -9,13 +9,27 @@ package limmen.hw2.client;
  *
  * @author kim
  */
-public class ClientImpl {
+public class ClientImpl implements Client {
     
-    public ClientImpl(){
-        
-    }
+    private String name;
     
-    public static void main(String[] args){
-        new BankClient().run();
+    public ClientImpl(String name){
+        this.name = name;
     }
+
+    @Override
+    public void wishNotification() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void itemNotification() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+   
 }

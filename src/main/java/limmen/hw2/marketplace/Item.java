@@ -16,4 +16,5 @@ public interface Item extends Remote {
     
     public String getName() throws RemoteException;
     public String getDescription() throws RemoteException;
+    public int getPrice() throws RemoteException;
 }
