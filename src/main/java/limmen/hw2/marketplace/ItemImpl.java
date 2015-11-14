@@ -5,18 +5,10 @@
  */
 package limmen.hw2.marketplace;
 
-import limmen.hw2.client.*;
-
 /**
  *
  * @author kim
  */
-public class MarketStartup {
-    public MarketStartup(){
-        
-    }
+public class ItemImpl {
     
-    static void main(String[] args){
-        new MarketPlace();
-    }
 }

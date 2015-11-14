@@ -4,11 +4,11 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
-public class Server {
+public class BankServer {
     private static final String USAGE = "java bankrmi.Server <bank_rmi_url>";
     private static final String BANK = "Nordea";
 
-    public Server(String bankName) {
+    public BankServer(String bankName) {
         try {
             Bank bankobj = new BankImpl(bankName);
             // Register the newly created object at rmiregistry.
@@ -37,6 +37,6 @@ public class Server {
             bankName = BANK;
         }
 
-        new Server(bankName);
+        new BankServer(bankName);
     }
 }

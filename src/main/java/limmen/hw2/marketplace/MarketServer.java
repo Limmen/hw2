@@ -5,15 +5,17 @@
  */
 package limmen.hw2.marketplace;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
 /**
  *
  * @author kim
  */
-public interface Item extends Remote {
+public class MarketServer {
+
+    public MarketServer(){
+        
+    }
     
-    public String getName() throws RemoteException;
-    public String getDescription() throws RemoteException;
+    public static void main(String[] args){
+        
+    }
 }

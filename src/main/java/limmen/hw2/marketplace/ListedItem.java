@@ -5,10 +5,29 @@
  */
 package limmen.hw2.marketplace;
 
+import limmen.hw2.client.Client;
+
 /**
  *
  * @author kim
  */
 public class ListedItem {
+    
+    Item item;
+    Client seller;
+    
+    public ListedItem(Item item, Client seller){
+        this.item = item;
+        this.seller = seller;
+    }
+    
+    Item getItem(){
+        return item;
+    }
+    
+    Client getSeller(){
+        return seller;
+    }
+    
     
 }

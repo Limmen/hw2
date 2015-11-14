@@ -9,8 +9,13 @@ package limmen.hw2.client;
  *
  * @author kim
  */
-public interface ClientRemoteInteface {
+public class ClientImpl {
     
-    public void wishNotification();
-    public void itemNotification();
+    public ClientImpl(){
+        
+    }
+    
+    public static void main(String[] args){
+        new BankClient().run();
+    }
 }

@@ -9,6 +9,8 @@ package limmen.hw2.client;
  *
  * @author kim
  */
-public class Client {
+public interface Client {
     
+    public void wishNotification();
+    public void itemNotification();
 }

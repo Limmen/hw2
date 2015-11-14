@@ -9,12 +9,16 @@ package limmen.hw2.client;
  *
  * @author kim
  */
-public class ClientStartup {
-    public ClientStartup(){
-        
-    }
+public enum CommandName {
     
-    static void main(String[] args){
-        new ClientStartup();
-    }
+    newAccount,
+    getAccount,
+    deleteAccount,
+    withdraw,
+    deposit,
+    balance,
+    quit,
+    help,
+    list;
+
 }
