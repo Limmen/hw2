@@ -9,11 +9,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import limmen.hw2.client.model.Client;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -29,11 +32,11 @@ public class MainPanel extends JPanel{
     
     public MainPanel(GuiController contr){
         this.contr = contr;    
-        setLayout(new MigLayout("wrap 1"));
+        setLayout(new MigLayout("wrap 2"));
         JLabel lbl = new JLabel("<html> " + contr.getMarketName() + "<br>"
                 + "User: " + contr.getClient().getName() + "</html>");
         lbl.setFont(Title);
-        add(lbl);
+        add(lbl, "span 2, align center");
         JButton deRegButton = new JButton("DeRegister");
         deRegButton.setFont(Title);
         deRegButton.addActionListener(contr.new DeRegisterListener());

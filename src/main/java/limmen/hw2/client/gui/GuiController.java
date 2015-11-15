@@ -16,8 +16,11 @@ import limmen.hw2.bank.Bank;
 import limmen.hw2.client.model.BankWorker;
 import limmen.hw2.client.model.Client;
 import limmen.hw2.client.model.ClientImpl;
-import limmen.hw2.client.util.Command;
-import limmen.hw2.client.util.CommandName;
+import limmen.hw2.client.model.MarketWorker;
+import limmen.hw2.client.util.BankCommand;
+import limmen.hw2.client.util.BankCommandName;
+import limmen.hw2.client.util.MarketCommand;
+import limmen.hw2.client.util.MarketCommandName;
 import limmen.hw2.marketplace.MarketPlace;
 
 /**
@@ -90,7 +93,8 @@ public class GuiController {
         public void actionPerformed(ActionEvent e) {
             if(nameField.getText().length() > 0){
                 client = new ClientImpl(nameField.getText());
-                new BankWorker(bankobj, client, new Command(CommandName.newAccount), contr);
+                new BankWorker(bankobj, client, new BankCommand(BankCommandName.newAccount), contr).execute();
+                new MarketWorker(marketobj, client, new MarketCommand(MarketCommandName.register, client), contr).execute();
                 registerFrame.setVisible(false);
                 mainFrame = new MainFrame(contr, client);
             }
@@ -109,6 +113,52 @@ public class GuiController {
         @Override
         public void actionPerformed(ActionEvent e) {
             
+        }
+    }
+    class WishListener implements ActionListener {
+        private final JTextField nameField;
+        
+        WishListener(JTextField nameField){
+            this.nameField = nameField;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(nameField.getText().length() > 0){
+                
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Item-name is not valid"
+                        + "it needs to be atleast 1 letter",
+                        "Invalid wish", JOptionPane.INFORMATION_MESSAGE);
+            nameField.setText("");
+        }
+    }
+    class SellListener implements ActionListener {
+        private final JTextField nameField;
+        private final JTextField descrField;
+        private final JTextField priceField;
+        
+        SellListener(JTextField nameField, JTextField descrField, JTextField priceField){
+            this.nameField = nameField;
+            this.descrField = descrField;
+            this.priceField = priceField;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(nameField.getText().length() > 0 && descrField.getText().length()> 0 && priceField.getText().length() > 0){
+                try{
+                    
+                }
+                catch(NumberFormatException formatExc){
+                    JOptionPane.showMessageDialog(null, "price need to be a valid number",
+                            "Invalid price", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+            else
+                JOptionPane.showMessageDialog(null, "The information you have"
+                        + "entered is not valid",
+                        "Invalid item", JOptionPane.INFORMATION_MESSAGE);
+            nameField.setText("");
         }
     }
 }

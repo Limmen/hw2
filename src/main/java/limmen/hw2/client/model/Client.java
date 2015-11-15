@@ -17,5 +17,6 @@ public interface Client {
     public void itemNotification();
     public String getName();
     public Account getAccount();
+    public void setAccount(Account acc);
     
 }

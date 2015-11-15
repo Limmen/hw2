@@ -9,6 +9,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import limmen.hw2.client.model.Client;
+import limmen.hw2.client.util.RejectedException;
 
 /**
  *
@@ -18,9 +19,10 @@ public interface MarketPlace extends Remote {
     
     public Item Buy(Item item, Client client) throws RemoteException;
     public void Sell(Item item, Client client) throws RemoteException;
-    public void register(Client client) throws RemoteException;
+    public void register(Client client) throws RemoteException, RejectedException;
     public void deregister(Client client) throws RemoteException;
     public ArrayList<ListedItem> listItems() throws RemoteException;
+    public ArrayList<Client> listClients() throws RemoteException;
     public void wish(Item item, Client client) throws RemoteException;
     
 }

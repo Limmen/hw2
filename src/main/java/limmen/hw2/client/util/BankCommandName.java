@@ -9,7 +9,7 @@ package limmen.hw2.client.util;
  *
  * @author kim
  */
-public enum CommandName {
+public enum BankCommandName {
     
     newAccount,
     getAccount,

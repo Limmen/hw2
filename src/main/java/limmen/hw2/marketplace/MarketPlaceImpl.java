@@ -1,14 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package limmen.hw2.marketplace;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import limmen.hw2.client.model.Client;
+import limmen.hw2.client.util.RejectedException;
 
 /**
  *
@@ -34,34 +35,55 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
             }
         }
         return item;
-            
+        
     }
-
+    
     @Override
     public void Sell(Item item, Client client) throws RemoteException {
         listedItems.add(new ListedItem(item, client));
     }
-
+    
     @Override
-    public void register(Client client) throws RemoteException {
-        if(!clients.contains(client))
+    public void register(Client client) throws RemoteException, RejectedException {
+        boolean bool = true;
+        for(Client cli : clients){
+            if(cli.equals(client)){
+                bool = false;
+                throw new RejectedException("Rejected: " + this.getClass()
+                        + marketName
+                        + "You are already registered ");
+                
+            }if(cli.getName().equals(client.getName())){
+                bool = false;
+                throw new RejectedException("Rejected: " + this.getClass()
+                        + marketName
+                        + "A client with that name is already registered"
+                        + "at the marketplace");                
+            }
+        }
+        if(bool)
             clients.add(client);
     }
-
+    
     @Override
     public void deregister(Client client) throws RemoteException {
         if(clients.contains(client))
             clients.remove(client);
     }
-
+    
     @Override
     public ArrayList<ListedItem> listItems() throws RemoteException {
         return listedItems;
     }
-
+    
     @Override
     public void wish(Item item, Client client) throws RemoteException {
         wishes.add(new Wish(item , client));
+    }
+
+    @Override
+    public ArrayList<Client> listClients() throws RemoteException {
+        return clients;
     }
     
 }

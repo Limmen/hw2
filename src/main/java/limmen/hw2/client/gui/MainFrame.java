@@ -5,21 +5,15 @@
 */
 package limmen.hw2.client.gui;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
-import javax.swing.JButton;
+import java.util.ArrayList;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import limmen.hw2.client.model.Client;
 import net.miginfocom.swing.MigLayout;
 
@@ -94,17 +88,61 @@ public class MainFrame extends JFrame {
                     
                 }
             });
+        item = new JMenuItem("Buy");
+        menu.add(item);
+        item.addActionListener(new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent arg0)
+                {
+                    try {
+                        container.transitionToBuy();
+                        pack();
+                    }
+                    catch(Exception e)
+                    {
+                        
+                    }
+                    
+                }
+            });
+        item = new JMenuItem("Sell");
+        menu.add(item);
+        item.addActionListener(new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent arg0)
+                {
+                    try {
+                        container.transitionToSell();
+                        pack();
+                    }
+                    catch(Exception e)
+                    {
+                        
+                    }
+                    
+                }
+            });
+        item = new JMenuItem("Wish");
+        menu.add(item);
+        item.addActionListener(new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent arg0)
+                {
+                    try {
+                        container.transitionToWish();
+                        pack();
+                    }
+                    catch(Exception e)
+                    {
+                        
+                    }
+                    
+                }
+            });
         return menuBar;
-    }                       
-    private class BuyPanel extends JPanel{
-        
-    }
-    
-    private class SellPanel extends JPanel{
-        
-    }
-    
-    private class WishPanel extends JPanel{
-        
-    }   
+    } 
+ 
 }

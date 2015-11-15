@@ -5,10 +5,12 @@
  */
 package limmen.hw2.client.model;
 
+import java.rmi.RemoteException;
 import javax.swing.SwingWorker;
 import limmen.hw2.bank.Bank;
 import limmen.hw2.client.gui.GuiController;
-import limmen.hw2.client.util.Command;
+import limmen.hw2.client.util.BankCommand;
+import limmen.hw2.client.util.RejectedException;
 
 /**
  *
@@ -17,10 +19,10 @@ import limmen.hw2.client.util.Command;
 public class BankWorker extends SwingWorker <Boolean, Boolean> {    
     private final Bank bankobj;
     private final Client client;
-    private final Command command;
+    private final BankCommand command;
     private final GuiController contr;
     
-    public BankWorker(Bank bankobj, Client client, Command command, GuiController contr) {
+    public BankWorker(Bank bankobj, Client client, BankCommand command, GuiController contr) {
         this.client = client;
         this.bankobj= bankobj;
         this.command = command;    
@@ -52,7 +54,15 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
     }
     
     private void newAccount(){
-        
+        try{
+        client.setAccount(bankobj.newAccount(client.getName()));
+        }
+        catch(RejectedException e){
+            
+        }
+        catch(RemoteException e2){
+            
+        }
     }
     private void getAccount(){
         

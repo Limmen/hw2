@@ -21,12 +21,12 @@ public class ClientImpl implements Client {
     }
 
     @Override
-    public void wishNotification() {
+    public void wishNotification(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void itemNotification() {
+    public void itemNotification(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -35,8 +35,14 @@ public class ClientImpl implements Client {
         return name;
     }    
     @Override
-    public Account getAccount() {
+    public Account getAccount(){
         return account;
+    }
+
+    @Override
+    public void setAccount(Account account){
+        System.out.println("Account set");
+        this.account = account;
     }
    
 }
