@@ -1,6 +1,6 @@
 package limmen.hw2.bank;
 
-import limmen.hw2.client.RejectedException;
+import limmen.hw2.client.util.RejectedException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;

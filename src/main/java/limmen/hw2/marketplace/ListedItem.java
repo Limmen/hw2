@@ -5,7 +5,7 @@
  */
 package limmen.hw2.marketplace;
 
-import limmen.hw2.client.Client;
+import limmen.hw2.client.model.Client;
 
 /**
  *

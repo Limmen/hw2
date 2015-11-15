@@ -3,31 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package limmen.hw2.client;
+package limmen.hw2.client.util;
 
 /**
  *
  * @author kim
  */
 public class Command {
-        private final String userName;
         private final float amount;
         private final CommandName command;
         
-        Command(CommandName command, String userName, float amount) {
+        public Command(CommandName command, float amount) {
             this.command = command;
-            this.userName = userName;
             this.amount = amount;
         }
-        String getUserName() {
-            return userName;
+        public Command(CommandName command) {
+            this.command = command;
+            amount = 0;
         }
-
-        float getAmount() {
+        public float getAmount() {
             return amount;
         }
 
-        CommandName getCommandName() {
+        public CommandName getCommandName() {
             return command;
         }
     }

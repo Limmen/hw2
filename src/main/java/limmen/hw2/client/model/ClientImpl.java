@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package limmen.hw2.client;
+package limmen.hw2.client.model;
+
+import limmen.hw2.bank.Account;
 
 /**
  *
@@ -12,6 +14,7 @@ package limmen.hw2.client;
 public class ClientImpl implements Client {
     
     private String name;
+    private Account account;
     
     public ClientImpl(String name){
         this.name = name;
@@ -30,6 +33,10 @@ public class ClientImpl implements Client {
     @Override
     public String getName() {
         return name;
+    }    
+    @Override
+    public Account getAccount() {
+        return account;
     }
    
 }

@@ -6,18 +6,24 @@
 package limmen.hw2.marketplace;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import limmen.hw2.client.Client;
+import limmen.hw2.client.model.Client;
 
 /**
  *
  * @author kim
  */
-public class MarketPlaceImpl implements MarketPlace {
-
-    ArrayList<Client> clients;
-    ArrayList<ListedItem> listedItems;
-    ArrayList<Wish> wishes;
+public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace {
+    
+    private String marketName;
+    ArrayList<Client> clients = new ArrayList();
+    ArrayList<ListedItem> listedItems = new ArrayList();
+    ArrayList<Wish> wishes = new ArrayList();
+    
+    public MarketPlaceImpl(String marketName) throws RemoteException{
+        this.marketName = marketName;
+    }
     
     @Override
     public Item Buy(Item item, Client client) throws RemoteException {

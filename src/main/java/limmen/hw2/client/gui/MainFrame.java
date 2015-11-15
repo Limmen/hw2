@@ -1,23 +1,26 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package limmen.hw2.client;
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
+package limmen.hw2.client.gui;
 
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import limmen.hw2.client.model.Client;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -30,6 +33,7 @@ public class MainFrame extends JFrame {
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
     private final GuiController contr;
     private final Client client;
+    private final Container container;
     
     public MainFrame(GuiController contr, Client client){
         this.contr = contr;
@@ -37,7 +41,8 @@ public class MainFrame extends JFrame {
         this.setLayout(new MigLayout());
         this.setTitle("HomeWork 2 ID2212 |Marketplace");
         this.setJMenuBar(createMenu());
-        this.setContentPane(new JScrollPane(new Container()));
+        container = new Container(contr);
+        this.setContentPane(new JScrollPane(container));
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent)
@@ -51,52 +56,18 @@ public class MainFrame extends JFrame {
     }
     private JMenuBar createMenu(){
         JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Menu Label");
+        JMenu menu = new JMenu("Menu");
         menuBar.add(menu);
-        JMenuItem item = new JMenuItem("Item Label");
+        JMenuItem item = new JMenuItem("Home");
         menu.add(item);
-        return menuBar;
-    }
-    
-    private class Container extends JPanel{
-        
-        Container(){
-            setLayout(new MigLayout("wrap 2, insets 50 50 50 50"));
-            add(new MainPanel(), "span 2");
-        }
-    }
-    
-    private class MainPanel extends JPanel{
-        JTextArea log;
-        
-        MainPanel(){
-            setLayout(new MigLayout("wrap 1"));
-            JLabel lbl = new JLabel("Marketplace. User: " + client.getName());
-            lbl.setFont(Title);
-            add(lbl);
-            JButton deRegButton = new JButton("DeRegister");
-            deRegButton.setFont(Title);
-            deRegButton.addActionListener(contr.new DeRegisterListener());
-            add(deRegButton, "span 2, gaptop 15"); 
-            lbl = new JLabel("Marketplace history");
-            lbl.setFont(Plain);
-            add(lbl, "span 2, gaptop 20");
-            log = new JTextArea("");
-            log.setLineWrap(true);
-            log.setEditable(false);
-            log.setFont(Plain);
-            JScrollPane logPane = new JScrollPane(log);
-            logPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-            logPane.setPreferredSize(new Dimension(400, 250));
-            add(logPane, "span 2, gaptop 20");
-            JButton clearButton = new JButton("Clear");
-            clearButton.addActionListener(new ActionListener()
+        item.addActionListener(new ActionListener()
             {
                 @Override
                 public void actionPerformed(ActionEvent arg0)
                 {
                     try {
-                        log.setText("");
+                        container.transitionToFrontPage();
+                        pack();
                     }
                     catch(Exception e)
                     {
@@ -105,11 +76,26 @@ public class MainFrame extends JFrame {
                     
                 }
             });
-            clearButton.setFont(Plain);
-            add(clearButton, "span 2, gaptop 10");
-        }
-    }
-    
+        item = new JMenuItem("Bank Account");
+        menu.add(item);
+        item.addActionListener(new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent arg0)
+                {
+                    try {
+                        container.transitionToBank();
+                        pack();
+                    }
+                    catch(Exception e)
+                    {
+                        
+                    }
+                    
+                }
+            });
+        return menuBar;
+    }                       
     private class BuyPanel extends JPanel{
         
     }
@@ -120,6 +106,5 @@ public class MainFrame extends JFrame {
     
     private class WishPanel extends JPanel{
         
-    }
-    
+    }   
 }

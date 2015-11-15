@@ -3,7 +3,7 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-package limmen.hw2.client;
+package limmen.hw2.client.gui;
 
 import java.awt.Font;
 import javax.swing.JButton;
@@ -47,7 +47,8 @@ public class RegisterFrame extends JFrame {
             JLabel lbl;
             lbl = new JLabel("<html> Welcome to the marketplace. <br> <br>"
                     + "To be able to buy/sell items you need to be registered <br>"
-                    + "which you can do below. <br> </html>");
+                    + "and have a bankaccount. <br>"
+                    + "Register below and we'll set up a bankaccount for you<br> </html>");
             lbl.setFont(Title);
             add(lbl, "span 2");
             lbl = new JLabel("Username: ");

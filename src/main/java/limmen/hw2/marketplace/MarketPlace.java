@@ -8,7 +8,7 @@ package limmen.hw2.marketplace;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import limmen.hw2.client.Client;
+import limmen.hw2.client.model.Client;
 
 /**
  *
