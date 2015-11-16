@@ -3,7 +3,7 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-package limmen.hw2.client.gui;
+package limmen.hw2.client.view;
 
 import java.awt.Font;
 import javax.swing.JButton;

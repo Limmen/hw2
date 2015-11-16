@@ -8,7 +8,7 @@ package limmen.hw2.client.model;
 import java.rmi.RemoteException;
 import javax.swing.SwingWorker;
 import limmen.hw2.bank.Bank;
-import limmen.hw2.client.gui.GuiController;
+import limmen.hw2.client.view.GuiController;
 import limmen.hw2.client.util.BankCommand;
 import limmen.hw2.client.util.RejectedException;
 
@@ -58,10 +58,10 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
         client.setAccount(bankobj.newAccount(client.getName()));
         }
         catch(RejectedException e){
-            
+            e.printStackTrace();
         }
         catch(RemoteException e2){
-            
+            e2.printStackTrace();
         }
     }
     private void getAccount(){

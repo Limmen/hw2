@@ -16,5 +16,6 @@ public enum MarketCommandName {
     register,
     deRegister,
     listItems,
-    listClients;
+    getWishes,
+    getForSale;
 }

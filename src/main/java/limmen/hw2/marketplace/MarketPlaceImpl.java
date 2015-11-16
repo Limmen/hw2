@@ -27,20 +27,21 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     }
     
     @Override
-    public Item Buy(Item item, Client client) throws RemoteException {
+    public void Buy(Item item, Client client) throws RemoteException {
         for(ListedItem i : listedItems){
             if(i.getItem().equals(item)){
                 //contact bank and delete item from listedItems,
                 //also notify seller.
             }
         }
-        return item;
         
     }
     
     @Override
-    public void Sell(Item item, Client client) throws RemoteException {
-        listedItems.add(new ListedItem(item, client));
+    public void Sell(String name, String descr, float price, Client client) throws RemoteException {
+        System.out.println("Adding item to listed items");
+        listedItems.add(new ListedItemImpl(new ItemImpl(name,descr,price), client));
+        System.out.println("listeditems size: " + listedItems.size());
     }
     
     @Override
@@ -63,6 +64,8 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
         }
         if(bool)
             clients.add(client);
+        System.out.println("Client added?");
+        System.out.println("clients size: " + clients.size());
     }
     
     @Override
@@ -77,13 +80,35 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     }
     
     @Override
-    public void wish(Item item, Client client) throws RemoteException {
-        wishes.add(new Wish(item , client));
+    public void wish(String name, Client client) throws RemoteException {
+        System.out.println("Placing wish");
+        wishes.add(new Wish(new ItemImpl(name) , client));
     }
 
     @Override
     public ArrayList<Client> listClients() throws RemoteException {
         return clients;
+    }
+
+    @Override
+    public ArrayList<String> getWishes(Client client) throws RemoteException {
+        ArrayList<String> clientwishes = new ArrayList();
+        for(Wish w : wishes){
+            if(w.getClient().equals(client))
+                clientwishes.add(w.getItem().getName());
+                
+        }
+        return clientwishes;
+    }
+
+    @Override
+    public ArrayList<ListedItem> getForSale(Client client) throws RemoteException {
+        ArrayList<ListedItem> forSale = new ArrayList();
+        for(ListedItem i : listedItems){
+            if(i.getSeller().equals(client))
+                forSale.add(i);                
+        }
+        return forSale;
     }
     
 }

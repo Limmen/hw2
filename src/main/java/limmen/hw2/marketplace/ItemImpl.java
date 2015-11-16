@@ -6,22 +6,27 @@
 package limmen.hw2.marketplace;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  *
  * @author kim
  */
-public class ItemImpl implements Item {
-    private final int price;
+public class ItemImpl extends UnicastRemoteObject implements Item {
+    private final float price;
     private final String name;
     private final String description;
 
-    public ItemImpl(int price, String name, String description){
+    public ItemImpl(String name, String description,float price) throws RemoteException{
         this.price = price;
         this.name = name;
         this.description = description;
     }
-    
+    public ItemImpl(String name) throws RemoteException{
+        price = 0;
+        description = "";
+        this.name = name;
+    }
     @Override
     public String getName() throws RemoteException {
         return name;
@@ -33,7 +38,11 @@ public class ItemImpl implements Item {
     }
 
     @Override
-    public int getPrice() throws RemoteException {
+    public float getPrice() throws RemoteException {
         return price;
+    }
+    @Override
+    public String toString(){
+        return name + "\n" + description + "\n" + price;
     }
 }

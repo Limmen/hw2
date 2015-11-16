@@ -14,13 +14,23 @@ import limmen.hw2.marketplace.Item;
  */
 public class MarketCommand {
     private Client client;
-    private Item item;
     private MarketCommandName command;
+    private String itemName = "";
+    private String itemDescr = "";
+    private float price = 0;
     
-    public MarketCommand(MarketCommandName command, Client client, Item item) {
+    
+    public MarketCommand(MarketCommandName command, Client client, String itemName, String itemDescr, float price) {
         this.command = command;
         this.client = client;
-        this.item = item;
+        this.itemName = itemName;
+        this.itemDescr = itemDescr;
+        this.price = price;
+    }
+    public MarketCommand(MarketCommandName command, Client client, String itemName) {
+        this.command = command;
+        this.client = client;
+        this.itemName = itemName;
     }
     public MarketCommand(MarketCommandName command, Client client) {
         this.command = command;
@@ -32,7 +42,17 @@ public class MarketCommand {
     public MarketCommandName getCommandName() {
         return command;
     }
-    public Item getItem() {
-        return item;
+
+    public String getItemName() {
+        return itemName;
     }
+
+    public String getItemDescr() {
+        return itemDescr;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+    
 }

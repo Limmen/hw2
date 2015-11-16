@@ -5,18 +5,20 @@
  */
 package limmen.hw2.client.model;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import limmen.hw2.bank.Account;
 
 /**
  *
  * @author kim
  */
-public interface Client {
-    
-    public void wishNotification();
-    public void itemNotification();
-    public String getName();
-    public Account getAccount();
-    public void setAccount(Account acc);
+public interface Client extends Remote {
+     
+    public void wishNotification() throws RemoteException;
+    public void itemNotification() throws RemoteException;
+    public String getName() throws RemoteException;
+    public Account getAccount() throws RemoteException;
+    public void setAccount(Account acc) throws RemoteException;
     
 }

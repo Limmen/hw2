@@ -3,7 +3,7 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-package limmen.hw2.client.gui;
+package limmen.hw2.client.view;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -15,6 +15,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import limmen.hw2.client.model.Client;
+import limmen.hw2.marketplace.ListedItem;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -97,6 +98,7 @@ public class MainFrame extends JFrame {
                 {
                     try {
                         container.transitionToBuy();
+                        contr.updateItems();
                         pack();
                     }
                     catch(Exception e)
@@ -115,6 +117,7 @@ public class MainFrame extends JFrame {
                 {
                     try {
                         container.transitionToSell();
+                        contr.updateForSale();
                         pack();
                     }
                     catch(Exception e)
@@ -133,6 +136,7 @@ public class MainFrame extends JFrame {
                 {
                     try {
                         container.transitionToWish();
+                        contr.updateWishes();
                         pack();
                     }
                     catch(Exception e)
@@ -143,6 +147,15 @@ public class MainFrame extends JFrame {
                 }
             });
         return menuBar;
-    } 
+    }
+    public void updateWishes(ArrayList<String> wishes){
+        container.updateWishes(wishes);
+    }
+    public void updateItems(ArrayList<ListedItem> items){
+        container.updateItems(items);
+    }
+    public void updateForSale(ArrayList<ListedItem> items){
+        container.updateForSale(items);
+    }
  
 }

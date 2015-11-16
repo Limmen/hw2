@@ -3,13 +3,14 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-package limmen.hw2.client.gui;
+package limmen.hw2.client.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import limmen.hw2.bank.Bank;
@@ -21,6 +22,7 @@ import limmen.hw2.client.util.BankCommand;
 import limmen.hw2.client.util.BankCommandName;
 import limmen.hw2.client.util.MarketCommand;
 import limmen.hw2.client.util.MarketCommandName;
+import limmen.hw2.marketplace.ListedItem;
 import limmen.hw2.marketplace.MarketPlace;
 
 /**
@@ -36,7 +38,8 @@ public class GuiController {
     private Bank bankobj;
     private MarketPlace marketobj;
     private Client client;
-    public GuiController(){       
+    private ArrayList<String> log = new ArrayList();
+    public GuiController(){
         connectToBank();
         connectToMarketPlace();
         registerFrame = new RegisterFrame(contr);
@@ -54,8 +57,37 @@ public class GuiController {
     public Client getClient(){
         return client;
     }
+    public void updateWishes(ArrayList<String> wishes){
+        mainFrame.updateWishes(wishes);
+    }    
+    public void updateWishes(){
+        new MarketWorker(marketobj, client, new MarketCommand(MarketCommandName.getWishes, client), contr).execute();
+    }
+    public void updateItems(ArrayList<ListedItem> items){
+        mainFrame.updateItems(items);
+    }
+    public void updateItems(){
+        new MarketWorker(marketobj, client, new MarketCommand(MarketCommandName.listItems, client), contr).execute();
+    }
+    public void updateForSale(ArrayList<ListedItem> items){
+        mainFrame.updateForSale(items);
+    }
+    public void updateForSale(){
+        new MarketWorker(marketobj, client, new MarketCommand(MarketCommandName.getForSale, client), contr).execute();
+    }
+    public void remoteExceptionHandler(){
+        JOptionPane.showMessageDialog(null, "There was an error"
+                    + " with the connection to the marketplace",
+                    "ConnectionError", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public void updateLog(String s){
+        log.add(s);
+    }
+    public ArrayList<String> getLog(){
+        return log;
+    }
     private void connectToBank(){
-         try {
+        try {
             try {
                 LocateRegistry.getRegistry(1099).list();
             } catch (RemoteException e) {
@@ -69,7 +101,7 @@ public class GuiController {
         System.out.println("Connected to bank: " + DEFAULT_BANK_NAME);
     }
     private void connectToMarketPlace(){
-         try {
+        try {
             try {
                 LocateRegistry.getRegistry(1099).list();
             } catch (RemoteException e) {
@@ -92,10 +124,14 @@ public class GuiController {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(nameField.getText().length() > 0){
-                client = new ClientImpl(nameField.getText());
+                try{
+                    client = new ClientImpl(nameField.getText());}
+                catch(RemoteException remoteExc){
+                    remoteExc.printStackTrace();
+                }
                 new BankWorker(bankobj, client, new BankCommand(BankCommandName.newAccount), contr).execute();
                 new MarketWorker(marketobj, client, new MarketCommand(MarketCommandName.register, client), contr).execute();
-                registerFrame.setVisible(false);
+                registerFrame.setVisible(false);                
                 mainFrame = new MainFrame(contr, client);
             }
             else
@@ -123,8 +159,8 @@ public class GuiController {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(nameField.getText().length() > 0){
-                
+            if(nameField.getText().length() > 0){                
+                new MarketWorker(marketobj, client, new MarketCommand(MarketCommandName.wish, client,nameField.getText()), contr).execute();
             }
             else
                 JOptionPane.showMessageDialog(null, "Item-name is not valid"
@@ -147,7 +183,8 @@ public class GuiController {
         public void actionPerformed(ActionEvent e) {
             if(nameField.getText().length() > 0 && descrField.getText().length()> 0 && priceField.getText().length() > 0){
                 try{
-                    
+                    new MarketWorker(marketobj, client, new MarketCommand(MarketCommandName.sell, client, nameField.getText(),
+                    descrField.getText(), Float.parseFloat(priceField.getText())), contr).execute();
                 }
                 catch(NumberFormatException formatExc){
                     JOptionPane.showMessageDialog(null, "price need to be a valid number",
@@ -159,6 +196,8 @@ public class GuiController {
                         + "entered is not valid",
                         "Invalid item", JOptionPane.INFORMATION_MESSAGE);
             nameField.setText("");
+            descrField.setText("");
+            priceField.setText("");
         }
     }
 }

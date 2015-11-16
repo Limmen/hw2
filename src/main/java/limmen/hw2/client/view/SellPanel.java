@@ -3,14 +3,19 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-package limmen.hw2.client.gui;
+package limmen.hw2.client.view;
 
 import java.awt.Font;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import limmen.hw2.marketplace.ListedItem;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -22,6 +27,8 @@ public class SellPanel extends JPanel {
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
     GuiController contr;
+    DefaultTableModel model;
+    String[] columnNames;
     public SellPanel(GuiController contr){
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
@@ -50,6 +57,41 @@ public class SellPanel extends JPanel {
         JButton sellButton = new JButton ("List item for sale");
         sellButton.setFont(Title);
         sellButton.addActionListener(contr.new SellListener(nameField, descrField, priceField));
-        add(sellButton);
+        add(sellButton, "span 2");
+        columnNames = new String[4];
+        columnNames[0] = "Name";
+        columnNames[1] = "Description";
+        columnNames[2] = "Price";
+        columnNames[3] = "Seller";
+        String[][] rowData = new String[0][0];
+        lbl = new JLabel("Items you have for sale on the market:");
+        lbl.setFont(Title);
+        add(lbl, "span 2, gaptop 20");
+        model = new DefaultTableModel(rowData,columnNames);
+        JTable table = new JTable(model);
+        table.setRowHeight(20);
+        table.setFont(Plain);        
+        table.getTableHeader().setFont(PBold);
+        add(new JScrollPane(table), "span 2, gaptop 10");
+    }
+    public void updateForSale(ArrayList<ListedItem> items){        
+        String[][] rowData = new String[items.size()][4];
+        for(int i = 0; i <  items.size(); i++)
+        {
+            try{
+            ListedItem item = items.get(i);
+            rowData[i][0] = item.getItem().getName();
+            rowData[i][1] = item.getItem().getDescription();
+            rowData[i][2] = Float.toString(item.getItem().getPrice());
+            rowData[i][3] = item.getSeller().getName();
+            }
+            catch(RemoteException e){
+                e.printStackTrace();
+                contr.remoteExceptionHandler();
+            }
+        }
+        model.setDataVector(rowData, columnNames);
+        repaint();
+        revalidate();
     }
 }
