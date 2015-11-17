@@ -29,7 +29,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
 
     @Override
     public void itemNotification() throws RemoteException{
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Item notification");
     }
 
     @Override

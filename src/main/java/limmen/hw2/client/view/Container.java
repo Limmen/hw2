@@ -22,6 +22,7 @@ public class Container extends JPanel{
     BuyPanel buyPanel;
     SellPanel sellPanel;
     WishPanel wishPanel;    
+    BankPanel bankPanel;
     public Container(GuiController contr){
         this.contr = contr;
         setLayout(new MigLayout("wrap 1, insets 50 50 50 50"));
@@ -30,10 +31,11 @@ public class Container extends JPanel{
     public void transitionToBank(){
         removeAll();
         try{
-            add(new BankPanel(contr), "span 1");
+            bankPanel = new BankPanel(contr);
+            add(bankPanel, "span 1");
         }
         catch(RemoteException r){
-            contr.remoteExceptionHandler();
+            contr.remoteExceptionHandler(r);
             mainPanel = new MainPanel(contr);
             add(mainPanel, "span 1");
         }
@@ -75,5 +77,8 @@ public class Container extends JPanel{
     }
     public void updateForSale(ArrayList<ListedItem> items){
         sellPanel.updateForSale(items);
+    }
+    public void updateBalance(){
+        bankPanel.updateBalance();
     }
 }

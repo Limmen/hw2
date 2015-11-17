@@ -18,8 +18,16 @@ public class MarketCommand {
     private String itemName = "";
     private String itemDescr = "";
     private float price = 0;
+    private String seller = "";
     
-    
+    public MarketCommand(MarketCommandName command, Client client, String itemName, String itemDescr, float price, String seller) {
+        this.command = command;
+        this.client = client;
+        this.itemName = itemName;
+        this.itemDescr = itemDescr;
+        this.price = price;
+        this.seller = seller;
+    }
     public MarketCommand(MarketCommandName command, Client client, String itemName, String itemDescr, float price) {
         this.command = command;
         this.client = client;
@@ -53,6 +61,10 @@ public class MarketCommand {
 
     public float getPrice() {
         return price;
+    }
+
+    public String getSeller() {
+        return seller;
     }
     
 }

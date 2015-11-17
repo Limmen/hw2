@@ -27,16 +27,27 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     }
     
     @Override
-    public void Buy(Item item, Client client) throws RemoteException {
+    public void Buy(String name, String descr, float price, String seller, Client client) throws RemoteException {
+        ArrayList<ListedItem> l = new ArrayList();
         for(ListedItem i : listedItems){
-            if(i.getItem().equals(item)){
-                //contact bank and delete item from listedItems,
-                //also notify seller.
+            if(i.getItem().getName().equals(name) && 
+                    i.getItem().getDescription().equals(descr) &&
+                    i.getItem().getPrice() == price &&
+                    i.getSeller().getName().equals(seller)){
+                try{
+                client.getAccount().withdraw(price);
+                i.getSeller().getAccount().deposit(price);
+                i.getSeller().itemNotification();
+                }
+                catch(RejectedException e){
+                    e.printStackTrace();
+                }                
             }
+            else
+                l.add(i);
         }
-        
+        listedItems = l;
     }
-    
     @Override
     public void Sell(String name, String descr, float price, Client client) throws RemoteException {
         System.out.println("Adding item to listed items");
@@ -69,9 +80,17 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     }
     
     @Override
-    public void deregister(Client client) throws RemoteException {
+    public void deRegister(Client client) throws RemoteException {
         if(clients.contains(client))
             clients.remove(client);
+        for(ListedItem i : listedItems){
+            if(i.getSeller().equals(client))
+                listedItems.remove(i);
+        }
+        for(Wish j : wishes){
+            if(j.getClient().equals(client))
+                wishes.remove(j);
+        }
     }
     
     @Override

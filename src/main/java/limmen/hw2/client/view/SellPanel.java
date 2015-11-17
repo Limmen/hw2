@@ -86,8 +86,7 @@ public class SellPanel extends JPanel {
             rowData[i][3] = item.getSeller().getName();
             }
             catch(RemoteException e){
-                e.printStackTrace();
-                contr.remoteExceptionHandler();
+                contr.remoteExceptionHandler(e);
             }
         }
         model.setDataVector(rowData, columnNames);

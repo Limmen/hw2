@@ -17,10 +17,10 @@ import limmen.hw2.client.util.RejectedException;
  */
 public interface MarketPlace extends Remote {
     
-    public void Buy(Item item, Client client) throws RemoteException;
+    public void Buy(String name, String descr, float price, String seller, Client client) throws RemoteException;
     public void Sell(String name, String descr, float price, Client client) throws RemoteException;
     public void register(Client client) throws RemoteException, RejectedException;
-    public void deregister(Client client) throws RemoteException;
+    public void deRegister(Client client) throws RemoteException;
     public ArrayList<ListedItem> listItems() throws RemoteException;
     public ArrayList<Client> listClients() throws RemoteException;
     public ArrayList<String> getWishes(Client client) throws RemoteException;

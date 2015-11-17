@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package limmen.hw2.client.model;
 
 import java.rmi.RemoteException;
@@ -16,7 +16,7 @@ import limmen.hw2.client.util.RejectedException;
  *
  * @author kim
  */
-public class BankWorker extends SwingWorker <Boolean, Boolean> {    
+public class BankWorker extends SwingWorker <Boolean, Boolean> {
     private final Bank bankobj;
     private final Client client;
     private final BankCommand command;
@@ -25,7 +25,7 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
     public BankWorker(Bank bankobj, Client client, BankCommand command, GuiController contr) {
         this.client = client;
         this.bankobj= bankobj;
-        this.command = command;    
+        this.command = command;
         this.contr = contr;
     }
     @Override
@@ -33,29 +33,39 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
         switch(command.getCommandName()){
             case newAccount:
                 newAccount();
+                break;
             case getAccount:
                 getAccount();
+                break;
             case deleteAccount:
                 deleteAccount();
+                break;
             case withdraw:
                 withdraw();
+                break;
             case deposit:
                 deposit();
+                break;
             case balance:
                 balance();
+                break;
             case quit:
                 quit();
+                break;
             case help:
                 help();
+                break;
             case list:
                 list();
+                break;
         }
         return true;
     }
     
     private void newAccount(){
         try{
-        client.setAccount(bankobj.newAccount(client.getName()));
+            client.setAccount(bankobj.newAccount(client.getName()));
+            contr.updateLog(client.getName() + " created a new bankaccount at:  " + contr.getBankName());
         }
         catch(RejectedException e){
             e.printStackTrace();
@@ -68,13 +78,38 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
         
     }
     private void deleteAccount(){
-        
+        try{
+            bankobj.deleteAccount(client.getName());
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
     }
     private void withdraw(){
-        
+        try{
+            client.getAccount().withdraw(command.getAmount());
+            contr.updateBalance();
+            contr.updateLog(client.getName() + " withdraw " + command.getAmount());
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+        catch(RejectedException e2){
+            
+        }
     }
     private void deposit(){
-        
+        try{
+            client.getAccount().deposit(command.getAmount());
+            contr.updateBalance();
+            contr.updateLog(client.getName() + " deposited " + command.getAmount());
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+        catch(RejectedException e2){
+            
+        }
     }
     private void balance(){
         

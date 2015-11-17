@@ -42,6 +42,8 @@ public class MainFrame extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent)
             {
+                dispose();
+                deRegister();
                 System.exit(0);
             }
         });
@@ -148,6 +150,9 @@ public class MainFrame extends JFrame {
             });
         return menuBar;
     }
+    private void deRegister(){
+        contr.deRegister();
+    }
     public void updateWishes(ArrayList<String> wishes){
         container.updateWishes(wishes);
     }
@@ -156,6 +161,9 @@ public class MainFrame extends JFrame {
     }
     public void updateForSale(ArrayList<ListedItem> items){
         container.updateForSale(items);
+    }
+    public void updateBalance(){
+        container.updateBalance();
     }
  
 }

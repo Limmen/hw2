@@ -21,11 +21,11 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
     private Client client;
     private MarketCommand command;
     private GuiController contr;
-    public MarketWorker(MarketPlace marketobj, Client client, MarketCommand command, GuiController contr) {
-        this.client = client;
+    public MarketWorker(MarketPlace marketobj,MarketCommand command, GuiController contr) {
+        this.client = command.getClient();
         this.marketobj= marketobj;
         this.command = command;
-        this.contr = contr;      
+        this.contr = contr;
     }
     @Override
     protected Boolean doInBackground() throws Exception {
@@ -34,7 +34,7 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
                 buy();
                 break;
             case sell:
-                sell();   
+                sell();
                 break;
             case register:
                 register();
@@ -59,7 +59,17 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
     }
     
     private void buy(){
-        
+        try{
+            marketobj.Buy(command.getItemName(),command.getItemDescr(),
+                    command.getPrice(),command.getSeller(),client);
+            contr.updateLog(client.getName() + " bhougt " +
+                    command.getItemName() + " from " + command.getSeller() +
+                    " for: " + command.getPrice());
+            listItems();
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
     }
     private void sell(){
         try{
@@ -68,7 +78,7 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
             getForSale();
         }
         catch(RemoteException e){
-            e.printStackTrace();
+            contr.remoteExceptionHandler(e);
         }
     }
     private void wish(){
@@ -78,8 +88,7 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
             getWishes();
         }
         catch(RemoteException e){
-            e.printStackTrace();
-//            contr.remoteExceptionHandler();
+            contr.remoteExceptionHandler(e);
         }
     }
     private void register(){
@@ -91,28 +100,31 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
             e.printStackTrace();
         }
         catch(RemoteException e2){
-            e2.printStackTrace();
+            contr.remoteExceptionHandler(e2);
         }
     }
     private void deRegister(){
-        
+        try{
+            marketobj.deRegister(command.getClient());
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
     }
     private void listItems(){
         try{
             contr.updateItems(marketobj.listItems());
         }
         catch(RemoteException e){
-            // contr.remoteExceptionHandler();
-            e.printStackTrace();
+            contr.remoteExceptionHandler(e);
         }
     }
     private void getWishes(){
-        try{                                    
+        try{
             contr.updateWishes(marketobj.getWishes(client));
         }
         catch(RemoteException e){
-           // contr.remoteExceptionHandler();
-            e.printStackTrace();
+            contr.remoteExceptionHandler(e);
         }
     }
     private void getForSale(){
@@ -120,8 +132,7 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
             contr.updateForSale(marketobj.getForSale(client));
         }
         catch(RemoteException e){
-            // contr.remoteExceptionHandler();
-            e.printStackTrace();
+            contr.remoteExceptionHandler(e);
         }
     }
 }

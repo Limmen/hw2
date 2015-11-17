@@ -8,13 +8,13 @@ package limmen.hw2.client.view;
 import java.awt.Font;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import limmen.hw2.marketplace.ListedItem;
-import limmen.hw2.marketplace.ListedItemImpl;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -46,6 +46,10 @@ public class BuyPanel extends JPanel {
         table.setFont(Plain);        
         table.getTableHeader().setFont(PBold);
         add(new JScrollPane(table), "span 2, gaptop 20");
+        JButton buyButton = new JButton("Buy");
+        buyButton.setFont(Title);
+        buyButton.addActionListener(contr.new buyListener(table));
+        add(buyButton, "span 2, gaptop 10");
     }
     
     public void updateItems(ArrayList<ListedItem> items){        
@@ -61,7 +65,7 @@ public class BuyPanel extends JPanel {
             }
             catch(RemoteException e){
                 e.printStackTrace();
-                contr.remoteExceptionHandler();
+                contr.remoteExceptionHandler(e);
             }
         }
         model.setDataVector(rowData, columnNames);
