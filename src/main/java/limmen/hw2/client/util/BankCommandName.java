@@ -15,10 +15,6 @@ public enum BankCommandName {
     getAccount,
     deleteAccount,
     withdraw,
-    deposit,
-    balance,
-    quit,
-    help,
-    list;
+    deposit;
 
 }

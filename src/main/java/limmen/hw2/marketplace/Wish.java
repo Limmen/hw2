@@ -5,27 +5,19 @@
  */
 package limmen.hw2.marketplace;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import limmen.hw2.client.model.Client;
 
 /**
  *
  * @author kim
  */
-public class Wish {
-    private final Client client;
-    private final Item item;
+public interface Wish extends Remote {
     
-    public Wish(Item item, Client client){
-        this.client = client;
-        this.item = item;
-    }
+    public Client getClient() throws RemoteException;
 
-    public Client getClient() {
-        return client;
-    }
+    public String getName() throws RemoteException;
 
-    public Item getItem() {
-        return item;
-    }
-    
+    public float getPrice() throws RemoteException;
 }

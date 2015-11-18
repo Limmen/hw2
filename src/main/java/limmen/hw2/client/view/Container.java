@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import limmen.hw2.marketplace.ListedItem;
+import limmen.hw2.marketplace.Wish;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -17,16 +18,17 @@ import net.miginfocom.swing.MigLayout;
  * @author kim
  */
 public class Container extends JPanel{
-    GuiController contr;
-    MainPanel mainPanel;    
-    BuyPanel buyPanel;
-    SellPanel sellPanel;
-    WishPanel wishPanel;    
-    BankPanel bankPanel;
+    private final GuiController contr;
+    private MainPanel mainPanel;
+    private BuyPanel buyPanel;
+    private SellPanel sellPanel;
+    private WishPanel wishPanel;
+    private BankPanel bankPanel;
     public Container(GuiController contr){
         this.contr = contr;
         setLayout(new MigLayout("wrap 1, insets 50 50 50 50"));
-        add(new MainPanel(contr), "span 1");
+        mainPanel = new MainPanel(contr);
+        add(mainPanel, "span 1");
     }
     public void transitionToBank(){
         removeAll();
@@ -56,8 +58,8 @@ public class Container extends JPanel{
     public void transitionToBuy(){
         removeAll();
         try{
-        buyPanel = new BuyPanel(contr);
-        add(buyPanel, "span 1");
+            buyPanel = new BuyPanel(contr);
+            add(buyPanel, "span 1");
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);
@@ -69,21 +71,29 @@ public class Container extends JPanel{
         add(sellPanel, "span 1");
     }
     public void transitionToWish(){
-        removeAll();       
-        wishPanel = new WishPanel(contr);        
-        add(wishPanel, "span 1");        
+        removeAll();
+        wishPanel = new WishPanel(contr);
+        add(wishPanel, "span 1");
     }
-
-    public void updateWishes(ArrayList<String> wishes){
+    
+    public void updateWishes(ArrayList<Wish> wishes){
+        if(wishPanel != null)
         wishPanel.updateWishes(wishes);
     }
     public void updateItems(ArrayList<ListedItem> items){
+        if(buyPanel != null)
         buyPanel.updateItems(items);
     }
     public void updateForSale(ArrayList<ListedItem> items){
+        if(sellPanel != null)
         sellPanel.updateForSale(items);
     }
     public void updateBalance(){
+        if(bankPanel != null)
         bankPanel.updateBalance();
+    }
+    public void updateLog(ArrayList<String> log){
+        if(mainPanel != null)
+        mainPanel.updateLog(log);
     }
 }

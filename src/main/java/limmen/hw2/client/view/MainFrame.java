@@ -5,7 +5,6 @@
 */
 package limmen.hw2.client.view;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -14,8 +13,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
-import limmen.hw2.client.model.Client;
 import limmen.hw2.marketplace.ListedItem;
+import limmen.hw2.marketplace.Wish;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -23,16 +22,11 @@ import net.miginfocom.swing.MigLayout;
  * @author kim
  */
 public class MainFrame extends JFrame {
-    private final Font Plain = new Font("Serif", Font.PLAIN, 14);
-    private final Font Title = new Font("Serif", Font.PLAIN, 18);
-    private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
     private final GuiController contr;
-    private final Client client;
     private final Container container;
     
-    public MainFrame(GuiController contr, Client client){
+    public MainFrame(GuiController contr){
         this.contr = contr;
-        this.client = client;
         this.setLayout(new MigLayout());
         this.setTitle("HomeWork 2 ID2212 |Marketplace");
         this.setJMenuBar(createMenu());
@@ -58,102 +52,102 @@ public class MainFrame extends JFrame {
         JMenuItem item = new JMenuItem("Home");
         menu.add(item);
         item.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent arg0)
             {
-                @Override
-                public void actionPerformed(ActionEvent arg0)
+                try {
+                    container.transitionToFrontPage();
+                    pack();
+                }
+                catch(Exception e)
                 {
-                    try {
-                        container.transitionToFrontPage();
-                        pack();
-                    }
-                    catch(Exception e)
-                    {
-                        
-                    }
                     
                 }
-            });
+                
+            }
+        });
         item = new JMenuItem("Bank Account");
         menu.add(item);
         item.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent arg0)
             {
-                @Override
-                public void actionPerformed(ActionEvent arg0)
+                try {
+                    container.transitionToBank();
+                    pack();
+                }
+                catch(Exception e)
                 {
-                    try {
-                        container.transitionToBank();
-                        pack();
-                    }
-                    catch(Exception e)
-                    {
-                        
-                    }
                     
                 }
-            });
+                
+            }
+        });
         item = new JMenuItem("Buy");
         menu.add(item);
         item.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent arg0)
             {
-                @Override
-                public void actionPerformed(ActionEvent arg0)
+                try {
+                    container.transitionToBuy();
+                    contr.updateItems();
+                    pack();
+                }
+                catch(Exception e)
                 {
-                    try {
-                        container.transitionToBuy();
-                        contr.updateItems();
-                        pack();
-                    }
-                    catch(Exception e)
-                    {
-                        
-                    }
                     
                 }
-            });
+                
+            }
+        });
         item = new JMenuItem("Sell");
         menu.add(item);
         item.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent arg0)
             {
-                @Override
-                public void actionPerformed(ActionEvent arg0)
+                try {
+                    container.transitionToSell();
+                    contr.updateForSale();
+                    pack();
+                }
+                catch(Exception e)
                 {
-                    try {
-                        container.transitionToSell();
-                        contr.updateForSale();
-                        pack();
-                    }
-                    catch(Exception e)
-                    {
-                        
-                    }
                     
                 }
-            });
+                
+            }
+        });
         item = new JMenuItem("Wish");
         menu.add(item);
         item.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent arg0)
             {
-                @Override
-                public void actionPerformed(ActionEvent arg0)
+                try {
+                    container.transitionToWish();
+                    contr.updateWishes();
+                    pack();
+                }
+                catch(Exception e)
                 {
-                    try {
-                        container.transitionToWish();
-                        contr.updateWishes();
-                        pack();
-                    }
-                    catch(Exception e)
-                    {
-                        
-                    }
                     
                 }
-            });
+                
+            }
+        });
         return menuBar;
     }
     private void deRegister(){
         contr.deRegister();
     }
-    public void updateWishes(ArrayList<String> wishes){
+    public void updateWishes(ArrayList<Wish> wishes){
         container.updateWishes(wishes);
     }
     public void updateItems(ArrayList<ListedItem> items){
@@ -165,5 +159,8 @@ public class MainFrame extends JFrame {
     public void updateBalance(){
         container.updateBalance();
     }
- 
+    public void updateLog(ArrayList<String> log){
+        container.updateLog(log);
+    }    
+    
 }

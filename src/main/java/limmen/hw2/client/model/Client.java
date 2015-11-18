@@ -15,7 +15,7 @@ import limmen.hw2.bank.Account;
  */
 public interface Client extends Remote {
      
-    public void wishNotification() throws RemoteException;
+    public void wishNotification(String name, float price) throws RemoteException;
     public void itemNotification(String name, float price, Client client) throws RemoteException;
     public String getName() throws RemoteException;
     public Account getAccount() throws RemoteException;

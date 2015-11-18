@@ -15,8 +15,8 @@ import limmen.hw2.client.model.Client;
  */
 public class ListedItemImpl extends UnicastRemoteObject implements ListedItem  {
     
-    private Item item;
-    private Client seller;
+    private final Item item;
+    private final Client seller;
     
     public ListedItemImpl(Item item, Client seller) throws RemoteException{
         this.item = item;

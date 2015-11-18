@@ -46,32 +46,20 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
             case deposit:
                 deposit();
                 break;
-            case balance:
-                balance();
-                break;
-            case quit:
-                quit();
-                break;
-            case help:
-                help();
-                break;
-            case list:
-                list();
-                break;
         }
         return true;
     }
     
     private void newAccount(){
         try{
-            client.setAccount(bankobj.newAccount(client.getName()));
+            client.setAccount(bankobj.newAccount(client.getName()));            
             contr.updateLog(client.getName() + " created a new bankaccount at:  " + contr.getBankName());
         }
         catch(RejectedException e){
-            e.printStackTrace();
+            contr.rejectedExceptionHandler(e);
         }
         catch(RemoteException e2){
-            e2.printStackTrace();
+            contr.remoteExceptionHandler(e2);
         }
     }
     private void getAccount(){
@@ -95,7 +83,7 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
             contr.remoteExceptionHandler(e);
         }
         catch(RejectedException e2){
-            
+            contr.rejectedExceptionHandler(e2);
         }
     }
     private void deposit(){
@@ -110,18 +98,6 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
         catch(RejectedException e2){
             
         }
-    }
-    private void balance(){
-        
-    }
-    private void quit(){
-        
-    }
-    private void help(){
-        
-    }
-    private void list(){
-        
     }
     
     

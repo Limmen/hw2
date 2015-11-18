@@ -25,10 +25,10 @@ public class BuyPanel extends JPanel {
     private final Font Plain = new Font("Serif", Font.PLAIN, 14);
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
-    GuiController contr;
-    DefaultTableModel model;
-    String[] columnNames;
-    JLabel balance;
+    private final GuiController contr;
+    private final DefaultTableModel model;
+    private final String[] columnNames;
+    private JLabel balance;
     public BuyPanel(GuiController contr) throws RemoteException{
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
@@ -59,24 +59,24 @@ public class BuyPanel extends JPanel {
         add(buyButton, "span 2, gaptop 10");
     }
     
-    public void updateItems(ArrayList<ListedItem> items) throws RemoteException{        
+    public void updateItems(ArrayList<ListedItem> items){
         String[][] rowData = new String[items.size()][4];
-        for(int i = 0; i <  items.size(); i++)
-        {
-            try{
-            ListedItem item = items.get(i);
-            rowData[i][0] = item.getItem().getName();
-            rowData[i][1] = item.getItem().getDescription();
-            rowData[i][2] = Float.toString(item.getItem().getPrice());
-            rowData[i][3] = item.getSeller().getName();
+        try{
+            for(int i = 0; i <  items.size(); i++)
+            {
+                ListedItem item = items.get(i);
+                rowData[i][0] = item.getItem().getName();
+                rowData[i][1] = item.getItem().getDescription();
+                rowData[i][2] = Float.toString(item.getItem().getPrice());
+                rowData[i][3] = item.getSeller().getName();
             }
-            catch(RemoteException e){
-                e.printStackTrace();
-                contr.remoteExceptionHandler(e);
-            }
+            model.setDataVector(rowData, columnNames);
+            updateBalance();
         }
-        model.setDataVector(rowData, columnNames);
-        updateBalance();
+        catch(RemoteException e){
+            e.printStackTrace();
+            contr.remoteExceptionHandler(e);
+        }
         repaint();
         revalidate();
     }

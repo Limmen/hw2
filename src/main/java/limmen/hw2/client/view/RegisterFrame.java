@@ -41,7 +41,7 @@ public class RegisterFrame extends JFrame {
     }
     
     private class RegisterPanel extends JPanel{
-        private JTextField nameField;
+        private final JTextField nameField;
         RegisterPanel(){
             setLayout(new MigLayout("wrap 2, insets 50 50 50 50"));  //insets T, L, B, R
             JLabel lbl;

@@ -21,8 +21,8 @@ public class BankPanel extends JPanel{
     private final Font Plain = new Font("Serif", Font.PLAIN, 14);
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
-    GuiController contr;
-    private JLabel balance;
+    private final GuiController contr;
+    private final JLabel balance;
     public BankPanel(GuiController contr) throws RemoteException, NullPointerException{
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
