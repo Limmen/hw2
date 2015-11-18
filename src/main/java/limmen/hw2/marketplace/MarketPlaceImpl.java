@@ -37,7 +37,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
                 try{
                 client.getAccount().withdraw(price);
                 i.getSeller().getAccount().deposit(price);
-                i.getSeller().itemNotification();
+                i.getSeller().itemNotification(i.getItem().getName(), i.getItem().getPrice(), client);
                 }
                 catch(RejectedException e){
                     e.printStackTrace();
@@ -50,9 +50,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     }
     @Override
     public void Sell(String name, String descr, float price, Client client) throws RemoteException {
-        System.out.println("Adding item to listed items");
         listedItems.add(new ListedItemImpl(new ItemImpl(name,descr,price), client));
-        System.out.println("listeditems size: " + listedItems.size());
     }
     
     @Override
@@ -75,8 +73,6 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
         }
         if(bool)
             clients.add(client);
-        System.out.println("Client added?");
-        System.out.println("clients size: " + clients.size());
     }
     
     @Override
@@ -100,7 +96,6 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     
     @Override
     public void wish(String name, Client client) throws RemoteException {
-        System.out.println("Placing wish");
         wishes.add(new Wish(new ItemImpl(name) , client));
     }
 

@@ -62,7 +62,7 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
         try{
             marketobj.Buy(command.getItemName(),command.getItemDescr(),
                     command.getPrice(),command.getSeller(),client);
-            contr.updateLog(client.getName() + " bhougt " +
+            contr.updateLog("you" + " bought " +
                     command.getItemName() + " from " + command.getSeller() +
                     " for: " + command.getPrice());
             listItems();

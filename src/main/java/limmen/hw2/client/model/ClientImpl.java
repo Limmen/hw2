@@ -8,6 +8,7 @@ package limmen.hw2.client.model;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import limmen.hw2.bank.Account;
+import limmen.hw2.client.view.GuiController;
 
 /**
  *
@@ -17,9 +18,11 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     
     private String name;
     private Account account;
+    private GuiController contr;
     
-    public ClientImpl(String name) throws RemoteException{
+    public ClientImpl(String name, GuiController contr) throws RemoteException{
         this.name = name;
+        this.contr = contr;
     }
 
     @Override
@@ -28,8 +31,9 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     }
 
     @Override
-    public void itemNotification() throws RemoteException{
+    public void itemNotification(String name, float price, Client client) throws RemoteException{
         System.out.println("Item notification");
+        contr.updateLog(client.getName() + " bought " + name + " from you for " + price);
     }
 
     @Override

@@ -28,10 +28,17 @@ public class BuyPanel extends JPanel {
     GuiController contr;
     DefaultTableModel model;
     String[] columnNames;
-    public BuyPanel(GuiController contr){
+    JLabel balance;
+    public BuyPanel(GuiController contr) throws RemoteException{
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
-        JLabel lbl = new JLabel("Select a item you want to buy");
+        JLabel lbl = new JLabel("Balance: ");
+        lbl.setFont(PBold);
+        add(lbl, "span 1");
+        updateBalance();
+        balance.setFont(Plain);
+        add(balance, "span 1");
+        lbl = new JLabel("Select a item you want to buy");
         lbl.setFont(Title);
         add(lbl, "span 2");
         columnNames = new String[4];
@@ -52,7 +59,7 @@ public class BuyPanel extends JPanel {
         add(buyButton, "span 2, gaptop 10");
     }
     
-    public void updateItems(ArrayList<ListedItem> items){        
+    public void updateItems(ArrayList<ListedItem> items) throws RemoteException{        
         String[][] rowData = new String[items.size()][4];
         for(int i = 0; i <  items.size(); i++)
         {
@@ -69,8 +76,17 @@ public class BuyPanel extends JPanel {
             }
         }
         model.setDataVector(rowData, columnNames);
+        updateBalance();
         repaint();
         revalidate();
+    }
+    private void updateBalance() throws RemoteException{
+        try{
+            balance = new JLabel(Float.toString(contr.getClient().getAccount().getBalance()));
+        }
+        catch(NullPointerException e){
+            balance = new JLabel("You dont have a valid account set");
+        }
     }
     
     

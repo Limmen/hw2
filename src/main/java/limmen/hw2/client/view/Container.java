@@ -55,8 +55,13 @@ public class Container extends JPanel{
     }
     public void transitionToBuy(){
         removeAll();
+        try{
         buyPanel = new BuyPanel(contr);
         add(buyPanel, "span 1");
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
     }
     public void transitionToSell(){
         removeAll();

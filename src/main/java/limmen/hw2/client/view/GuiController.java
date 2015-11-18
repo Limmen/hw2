@@ -144,7 +144,8 @@ public class GuiController {
         public void actionPerformed(ActionEvent e) {
             if(nameField.getText().length() > 0){
                 try{
-                    client = new ClientImpl(nameField.getText());}
+                    client = new ClientImpl(nameField.getText(), contr);
+                }
                 catch(RemoteException remoteExc){
                     remoteExc.printStackTrace();
                 }
@@ -285,6 +286,7 @@ public class GuiController {
                     > client.getAccount().getBalance()){
                  JOptionPane.showMessageDialog(null, "You don't have enough money",
                             "Invalid transaction", JOptionPane.INFORMATION_MESSAGE);
+                 return;
             }
             new MarketWorker(marketobj,
                     new MarketCommand(MarketCommandName.buy,client,
