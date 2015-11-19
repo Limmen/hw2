@@ -148,6 +148,14 @@ public class GuiController {
             }
         });
     }
+    public void updateLog(){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mainFrame.updateLog(log);
+            }
+        });
+    }
     private void connectToBank(){
         try {
             try {

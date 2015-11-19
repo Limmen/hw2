@@ -14,21 +14,26 @@ import limmen.hw2.client.util.RejectedException;
 /**
  * Marketplace implementation. extends UniCastRemoteObject to automaticly 
  * export the remote object.
+ * Methods are declared synchronized to get some thread-safety (only one
+ * thread is allowed to execute the methods at a time, the rest of the threads
+ * get queued up until it's their turn.
+ * Shared resources like clients, listedItems and wishes are declared volatile
+ * to avoid inconsistent reads.
  * @author kim
  */
 public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace {
     
     private final String marketName;
-    private final ArrayList<Client> clients = new ArrayList();
-    private ArrayList<ListedItem> listedItems = new ArrayList();
-    private ArrayList<Wish> wishes = new ArrayList();
+    private volatile ArrayList<Client> clients = new ArrayList();
+    private volatile ArrayList<ListedItem> listedItems = new ArrayList();
+    private volatile ArrayList<Wish> wishes = new ArrayList();
     
     public MarketPlaceImpl(String marketName) throws RemoteException{
         this.marketName = marketName;
     }
     
     @Override
-    public void Buy(String name, String descr, float price, String seller, Client client) throws RemoteException, RejectedException {
+    public synchronized void Buy(String name, String descr, float price, String seller, Client client) throws RemoteException, RejectedException {
         ArrayList<ListedItem> l = new ArrayList();
         for(ListedItem i : listedItems){
             if(i.getItem().getName().equals(name) &&
@@ -45,7 +50,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
         listedItems = l;
     }
     @Override
-    public void Sell(String name, String descr, float price, Client client) throws RemoteException {
+    public synchronized void Sell(String name, String descr, float price, Client client) throws RemoteException {
         for(Wish i : wishes){
             if(i.getName().equals(name) && price <= i.getPrice()){
                 i.getClient().wishNotification(name, price);
@@ -55,7 +60,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     }
     
     @Override
-    public void register(Client client) throws RemoteException, RejectedException {
+    public synchronized void register(Client client) throws RemoteException, RejectedException {
         boolean bool = true;
         for(Client cli : clients){
             if(cli.equals(client)){
@@ -77,7 +82,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     }
     
     @Override
-    public void deRegister(Client client) throws RemoteException {
+    public synchronized void deRegister(Client client) throws RemoteException {
         ArrayList<ListedItem> updItems = new ArrayList();
         ArrayList<Wish> updWishes = new ArrayList();
         if(clients.contains(client))
@@ -95,22 +100,22 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     }
     
     @Override
-    public ArrayList<ListedItem> listItems() throws RemoteException {
+    public synchronized ArrayList<ListedItem> listItems() throws RemoteException {
         return listedItems;
     }
     
     @Override
-    public void wish(String name, float price,  Client client) throws RemoteException {
+    public synchronized void wish(String name, float price,  Client client) throws RemoteException {
         wishes.add(new WishImpl(name , price, client));
     }
     
     @Override
-    public ArrayList<Client> listClients() throws RemoteException {
+    public synchronized ArrayList<Client> listClients() throws RemoteException {
         return clients;
     }
     
     @Override
-    public ArrayList<Wish> getWishes(Client client) throws RemoteException {
+    public synchronized ArrayList<Wish> getWishes(Client client) throws RemoteException {
         ArrayList<Wish> clientwishes = new ArrayList();
         for(Wish w : wishes){
             if(w.getClient().equals(client))
@@ -121,7 +126,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     }
     
     @Override
-    public ArrayList<ListedItem> getForSale(Client client) throws RemoteException {
+    public synchronized ArrayList<ListedItem> getForSale(Client client) throws RemoteException {
         ArrayList<ListedItem> forSale = new ArrayList();
         for(ListedItem i : listedItems){
             if(i.getSeller().equals(client))
@@ -131,7 +136,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     }
     
     @Override
-    public void removeWish(String name, float price, Client client) throws RemoteException {
+    public synchronized void removeWish(String name, float price, Client client) throws RemoteException {
         ArrayList<Wish> updWishes = new ArrayList();
         for(Wish i : wishes){
             if(!i.getClient().equals(client) && i.getName().equals(name)
@@ -142,7 +147,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     }
     
     @Override
-    public void removeSell(String name, String descr, float price, Client client) throws RemoteException {
+    public synchronized void removeSell(String name, String descr, float price, Client client) throws RemoteException {
         ArrayList<ListedItem> items = new ArrayList();
         for(ListedItem i : listedItems){
             if(!i.getItem().getName().equals(name) &&

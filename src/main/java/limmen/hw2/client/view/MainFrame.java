@@ -58,6 +58,7 @@ public class MainFrame extends JFrame {
             {
                 try {
                     container.transitionToFrontPage();
+                    contr.updateLog();
                     pack();
                 }
                 catch(Exception e)

@@ -57,7 +57,7 @@ public class MainPanel extends JPanel{
         JButton clearButton = new JButton("Clear");
         clearButton.addActionListener(contr.new clearLogListener(log));
         clearButton.setFont(Plain);
-        add(clearButton, "span 2, gaptop 10");
+        add(clearButton, "span 2, gaptop 10");       
     }
     public void updateLog(ArrayList<String> logList){
         log.setText("");

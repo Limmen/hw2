@@ -12,7 +12,8 @@ import limmen.hw2.client.view.GuiController;
 
 /**
  * Client implementation class. extends UniCastRemoteObject to automaticly 
- * export the remote object.
+ * export the remote object. This is neccessary to be able to accept incomming
+ * callbacks that are invoked from remote by the server.
  * @author kim
  */
 public class ClientImpl extends UnicastRemoteObject implements Client {
