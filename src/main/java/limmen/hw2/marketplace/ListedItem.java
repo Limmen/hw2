@@ -10,7 +10,8 @@ import java.rmi.RemoteException;
 import limmen.hw2.client.model.Client;
 
 /**
- *
+ * ListedItem remote interface. extends UniCastRemoteObject to automaticly 
+ * export the remote object.
  * @author kim
  */
 public interface ListedItem extends Remote {

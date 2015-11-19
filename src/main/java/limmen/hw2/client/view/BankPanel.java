@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Bank-panel
  * @author kim
  */
 public class BankPanel extends JPanel{

@@ -10,7 +10,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
 /**
- *
+ * MarketServer. Registers the marketplace object at the registry and binds it
+ * to a name.
  * @author kim
  */
 public class MarketServer {

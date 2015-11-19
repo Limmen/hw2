@@ -19,7 +19,7 @@ import limmen.hw2.marketplace.ListedItem;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Sell-panel
  * @author kim
  */
 public class SellPanel extends JPanel {

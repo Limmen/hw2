@@ -14,7 +14,7 @@ import limmen.hw2.marketplace.Wish;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * The contianer for the MainFrame
  * @author kim
  */
 public class Container extends JPanel{

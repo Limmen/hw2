@@ -13,7 +13,8 @@ import limmen.hw2.client.util.BankCommand;
 import limmen.hw2.client.util.RejectedException;
 
 /**
- *
+ * Bank-worker class, this class does remote method invokations on the 
+ * Java-object representing the bank.
  * @author kim
  */
 public class BankWorker extends SwingWorker <Boolean, Boolean> {
@@ -33,9 +34,6 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
         switch(command.getCommandName()){
             case newAccount:
                 newAccount();
-                break;
-            case getAccount:
-                getAccount();
                 break;
             case deleteAccount:
                 deleteAccount();
@@ -61,9 +59,6 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
         catch(RemoteException e2){
             contr.remoteExceptionHandler(e2);
         }
-    }
-    private void getAccount(){
-        
     }
     private void deleteAccount(){
         try{

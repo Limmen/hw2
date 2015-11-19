@@ -31,7 +31,7 @@ import limmen.hw2.marketplace.MarketPlace;
 import limmen.hw2.marketplace.Wish;
 
 /**
- *
+ * GUIController.
  * @author kim
  */
 public class GuiController {

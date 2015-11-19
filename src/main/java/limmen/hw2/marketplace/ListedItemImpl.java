@@ -10,7 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 import limmen.hw2.client.model.Client;
 
 /**
- *
+ * ListedItem implementation
  * @author kim
  */
 public class ListedItemImpl extends UnicastRemoteObject implements ListedItem  {

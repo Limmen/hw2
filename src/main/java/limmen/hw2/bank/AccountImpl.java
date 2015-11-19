@@ -3,7 +3,11 @@ package limmen.hw2.bank;
 import limmen.hw2.client.util.RejectedException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-
+/*
+* Account-implementation. extends UniCastRemoteObject to automaticly export the remote
+* object.
+* This class represents a account in the Bank.
+*/
 @SuppressWarnings("serial")
 public class AccountImpl extends UnicastRemoteObject implements Account {
     private float balance = 0;

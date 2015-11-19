@@ -6,7 +6,6 @@
 package limmen.hw2.client.model;
 
 import java.rmi.RemoteException;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import limmen.hw2.client.view.GuiController;
 import limmen.hw2.client.util.MarketCommand;
@@ -14,7 +13,8 @@ import limmen.hw2.client.util.RejectedException;
 import limmen.hw2.marketplace.MarketPlace;
 
 /**
- *
+ * Marketworker class. This class does remote method invocation on the 
+ * marketplace remote-interface.
  * @author kim
  */
 public class MarketWorker extends SwingWorker<Boolean,Boolean> {

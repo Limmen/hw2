@@ -6,13 +6,12 @@
 package limmen.hw2.client.util;
 
 /**
- *
+ * The communication-protocol with the bank.
  * @author kim
  */
 public enum BankCommandName {
     
     newAccount,
-    getAccount,
     deleteAccount,
     withdraw,
     deposit;

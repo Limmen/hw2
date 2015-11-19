@@ -10,7 +10,8 @@ import java.rmi.RemoteException;
 import limmen.hw2.bank.Account;
 
 /**
- *
+ * Remote interface for the client. This interface is used by the server
+ * to initialize callbacks.
  * @author kim
  */
 public interface Client extends Remote {

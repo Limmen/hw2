@@ -11,7 +11,8 @@ import limmen.hw2.bank.Account;
 import limmen.hw2.client.view.GuiController;
 
 /**
- *
+ * Client implementation class. extends UniCastRemoteObject to automaticly 
+ * export the remote object.
  * @author kim
  */
 public class ClientImpl extends UnicastRemoteObject implements Client {

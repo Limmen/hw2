@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * RegisterFrame. Startupframe when program is launched.
  * @author kim
  */
 public class RegisterFrame extends JFrame {

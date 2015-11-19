@@ -10,7 +10,8 @@ import java.rmi.server.UnicastRemoteObject;
 import limmen.hw2.client.model.Client;
 
 /**
- *
+ * Wish-implementation. extends UniCastRemoteObject to automaticly 
+ * export the remote object.
  * @author kim
  */
 public class WishImpl extends UnicastRemoteObject implements Wish{

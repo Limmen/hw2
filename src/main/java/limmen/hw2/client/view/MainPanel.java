@@ -17,7 +17,7 @@ import javax.swing.JTextArea;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * MainPanel (start-screen when connected to the marketplace)
  * @author kim
  */
 public class MainPanel extends JPanel{

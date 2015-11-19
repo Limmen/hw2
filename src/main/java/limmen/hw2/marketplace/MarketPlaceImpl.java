@@ -12,7 +12,8 @@ import limmen.hw2.client.model.Client;
 import limmen.hw2.client.util.RejectedException;
 
 /**
- *
+ * Marketplace implementation. extends UniCastRemoteObject to automaticly 
+ * export the remote object.
  * @author kim
  */
 public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace {

@@ -9,7 +9,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
- *
+ * Item-implementation. extends UniCastRemoteObject to automaticly 
+ * export the remote object.
  * @author kim
  */
 public class ItemImpl extends UnicastRemoteObject implements Item {

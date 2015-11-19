@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 import limmen.hw2.client.model.Client;
 
 /**
- *
+ * Wish remote-interface
  * @author kim
  */
 public interface Wish extends Remote {

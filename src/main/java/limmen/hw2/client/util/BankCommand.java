@@ -6,7 +6,7 @@
 package limmen.hw2.client.util;
 
 /**
- *
+ * This class represents a command that is sent to the bank.
  * @author kim
  */
 public class BankCommand {

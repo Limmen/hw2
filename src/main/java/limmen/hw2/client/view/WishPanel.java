@@ -20,7 +20,7 @@ import limmen.hw2.marketplace.Wish;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Wish-panel
  * @author kim
  */
 public class WishPanel extends JPanel {

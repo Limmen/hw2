@@ -12,7 +12,7 @@ import limmen.hw2.client.model.Client;
 import limmen.hw2.client.util.RejectedException;
 
 /**
- *
+ * MarketPlace remote interface
  * @author kim
  */
 public interface MarketPlace extends Remote {

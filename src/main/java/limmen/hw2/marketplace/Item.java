@@ -9,7 +9,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- *
+ * Remote interface for a item on the marketplace
  * @author kim
  */
 public interface Item extends Remote {

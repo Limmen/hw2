@@ -6,7 +6,7 @@
 package limmen.hw2.client.util;
 
 /**
- *
+ * The communication-protocol with the marketplace
  * @author kim
  */
 public enum MarketCommandName {

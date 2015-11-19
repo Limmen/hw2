@@ -18,7 +18,7 @@ import limmen.hw2.marketplace.Wish;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * The mainframe which represents a clients connection to the marketplace/bank
  * @author kim
  */
 public class MainFrame extends JFrame {

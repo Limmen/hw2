@@ -6,10 +6,15 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+* Bank-implementation. extends UniCastRemoteObject to automaticly export the remote
+* object.
+* This is the class that represents the bank.
+*/
 @SuppressWarnings("serial")
 public class BankImpl extends UnicastRemoteObject implements Bank {
-    private String bankName;
-    private Map<String, Account> accounts = new HashMap<>();
+    private final String bankName;
+    private final Map<String, Account> accounts = new HashMap<>();
 
     public BankImpl(String bankName) throws RemoteException {
         super();
