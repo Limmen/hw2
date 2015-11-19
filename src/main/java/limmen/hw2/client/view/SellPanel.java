@@ -66,10 +66,15 @@ public class SellPanel extends JPanel {
         String[][] rowData = new String[0][0];
         lbl = new JLabel("<html> Items you have for sale on the market <br>"
                 + " select a item"
-                + " and click 'remove' to remove it from the marketplace </html>");
+                + " and click 'remove' to remove it <br> from the marketplace </html>");
         lbl.setFont(Title);
         add(lbl, "span 2, gaptop 20");
-        model = new DefaultTableModel(rowData,columnNames);
+        model = new DefaultTableModel(rowData,columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         JTable table = new JTable(model);
         table.setRowHeight(20);
         table.setFont(Plain);

@@ -14,6 +14,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import limmen.hw2.marketplace.ListedItem;
+import limmen.hw2.marketplace.SoldItem;
 import limmen.hw2.marketplace.Wish;
 import net.miginfocom.swing.MigLayout;
 
@@ -59,6 +60,8 @@ public class MainFrame extends JFrame {
                 try {
                     container.transitionToFrontPage();
                     contr.updateLog();
+                    contr.updateBought();
+                    contr.updateSold();
                     pack();
                 }
                 catch(Exception e)
@@ -162,6 +165,12 @@ public class MainFrame extends JFrame {
     }
     public void updateLog(ArrayList<String> log){
         container.updateLog(log);
-    }    
+    }
+    public void updateBought(ArrayList<SoldItem> soldItems){
+        container.updateBought(soldItems);
+    }
+    public void updateSold(ArrayList<SoldItem> soldItems){
+        container.updateSold(soldItems);
+    }
     
 }

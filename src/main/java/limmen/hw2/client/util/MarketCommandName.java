@@ -19,5 +19,7 @@ public enum MarketCommandName {
     getWishes,
     getForSale,
     removeWish,
-    removeSell;
+    removeSell,
+    getBought,
+    getSold;
 }

@@ -28,7 +28,7 @@ public class BuyPanel extends JPanel {
     private final GuiController contr;
     private final DefaultTableModel model;
     private final String[] columnNames;
-    private JLabel balance;
+    private JLabel balance = new JLabel();
     public BuyPanel(GuiController contr) throws RemoteException{
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
@@ -47,7 +47,12 @@ public class BuyPanel extends JPanel {
         columnNames[2] = "Price";
         columnNames[3] = "Seller";
         String[][] rowData = new String[0][0];
-        model = new DefaultTableModel(rowData,columnNames);
+        model = new DefaultTableModel(rowData,columnNames) {            
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         JTable table = new JTable(model);
         table.setRowHeight(20);
         table.setFont(Plain);        
@@ -80,12 +85,17 @@ public class BuyPanel extends JPanel {
         repaint();
         revalidate();
     }
-    private void updateBalance() throws RemoteException{
-        try{
-            balance = new JLabel(Float.toString(contr.getClient().getAccount().getBalance()));
+    public void updateBalance(){
+        try{            
+            balance.setText(Float.toString(contr.getClient().getAccount().getBalance()));
+            repaint();
+            revalidate();
         }
         catch(NullPointerException e){
-            balance = new JLabel("You dont have a valid account set");
+            balance.setText("You dont have a valid account set");
+        }
+        catch(RemoteException e2){
+            contr.remoteExceptionHandler(e2);
         }
     }
     

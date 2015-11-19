@@ -28,6 +28,7 @@ import limmen.hw2.client.util.MarketCommandName;
 import limmen.hw2.client.util.RejectedException;
 import limmen.hw2.marketplace.ListedItem;
 import limmen.hw2.marketplace.MarketPlace;
+import limmen.hw2.marketplace.SoldItem;
 import limmen.hw2.marketplace.Wish;
 
 /**
@@ -100,6 +101,28 @@ public class GuiController {
             @Override
             public void run() {
                 mainFrame.updateBalance();
+            }
+        });
+    }
+    public void updateBought(){
+        new MarketWorker(marketobj,new MarketCommand(MarketCommandName.getBought, client), contr).execute();
+    }
+    public void updateBought(final ArrayList<SoldItem> boughtItems){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mainFrame.updateBought(boughtItems);
+            }
+        });
+    }
+    public void updateSold(){
+        new MarketWorker(marketobj,new MarketCommand(MarketCommandName.getSold, client), contr).execute();
+    }
+    public void updateSold(final ArrayList<SoldItem> soldItems){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mainFrame.updateSold(soldItems);
             }
         });
     }
@@ -204,9 +227,9 @@ public class GuiController {
                 new MarketWorker(marketobj,new MarketCommand(MarketCommandName.register, client), contr).execute();
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
-                    public void run() {
-                        registerFrame.setVisible(false);
+                    public void run() {                        
                         mainFrame = new MainFrame(contr);
+                        registerFrame.setVisible(false);
                     }
                 });
             }
@@ -381,6 +404,8 @@ public class GuiController {
                     remoteExceptionHandler(e2);
                 }
             }
+            else
+                invalidSelection();
         }
         
     }
@@ -405,6 +430,8 @@ public class GuiController {
                     invalidInput();
                 }
             }
+            else
+                invalidSelection();
         }
     }
     class removeSellListener implements ActionListener {
@@ -429,10 +456,12 @@ public class GuiController {
                     invalidInput();
                 }
             }
-        }        
-    }  
-        class clearLogListener implements ActionListener {
-            private final JTextArea logArea;
+            else
+                invalidSelection();
+        }
+    }
+    class clearLogListener implements ActionListener {
+        private final JTextArea logArea;
         clearLogListener(JTextArea logArea){
             this.logArea = logArea;
         }
@@ -440,13 +469,22 @@ public class GuiController {
         public void actionPerformed(ActionEvent e) {
             logArea.setText("");
             log = new ArrayList();
-        }        
+        }
     }
     public void invalidInput(){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 JOptionPane.showMessageDialog(null, "That is not valid input",
+                        "Invalid input", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+    }
+    public void invalidSelection(){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JOptionPane.showMessageDialog(null, "You have not selected anything",
                         "Invalid input", JOptionPane.INFORMATION_MESSAGE);
             }
         });

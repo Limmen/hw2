@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import limmen.hw2.marketplace.ListedItem;
+import limmen.hw2.marketplace.SoldItem;
 import limmen.hw2.marketplace.Wish;
 import net.miginfocom.swing.MigLayout;
 
@@ -78,22 +79,30 @@ public class Container extends JPanel{
     
     public void updateWishes(ArrayList<Wish> wishes){
         if(wishPanel != null)
-        wishPanel.updateWishes(wishes);
+            wishPanel.updateWishes(wishes);
     }
     public void updateItems(ArrayList<ListedItem> items){
         if(buyPanel != null)
-        buyPanel.updateItems(items);
+            buyPanel.updateItems(items);
     }
     public void updateForSale(ArrayList<ListedItem> items){
         if(sellPanel != null)
-        sellPanel.updateForSale(items);
+            sellPanel.updateForSale(items);
     }
     public void updateBalance(){
         if(bankPanel != null)
-        bankPanel.updateBalance();
+            bankPanel.updateBalance();
     }
     public void updateLog(ArrayList<String> log){
         if(mainPanel != null)
-        mainPanel.updateLog(log);
+            mainPanel.updateLog(log);
+    }
+    public void updateBought(ArrayList<SoldItem> soldItems){
+        if(mainPanel != null)
+            mainPanel.updateBought(soldItems);
+    }
+    public void updateSold(ArrayList<SoldItem> soldItems){
+        if(mainPanel != null)
+            mainPanel.updateSold(soldItems);
     }
 }

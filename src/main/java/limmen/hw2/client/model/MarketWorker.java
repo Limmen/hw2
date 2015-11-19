@@ -13,7 +13,7 @@ import limmen.hw2.client.util.RejectedException;
 import limmen.hw2.marketplace.MarketPlace;
 
 /**
- * Marketworker class. This class does remote method invocation on the 
+ * Marketworker class. This class does remote method invocation on the
  * marketplace remote-interface.
  * @author kim
  */
@@ -61,6 +61,12 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
             case removeSell:
                 removeSell();
                 break;
+            case getSold:
+                getSold();
+                break;
+            case getBought:
+                getBought();
+                break;
         }
         return true;
     }
@@ -69,9 +75,9 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
         try{
             marketobj.Buy(command.getItemName(),command.getItemDescr(),
                     command.getPrice(),command.getSeller(),client);
-            contr.updateLog("you" + " bought " +
+            contr.updateLog("you bought " +
                     command.getItemName() + " from " + command.getSeller() +
-                    " for: " + command.getPrice());            
+                    " for: " + command.getPrice());
             listItems();
         }
         catch(RejectedException e2){
@@ -84,7 +90,7 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
     private void sell(){
         try{
             marketobj.Sell(command.getItemName(),command.getItemDescr(),command.getPrice(),client);
-            contr.updateLog(client.getName() + " listed " + command.getItemName() + " for sale");                   
+            contr.updateLog(client.getName() + " listed " + command.getItemName() + " for sale");
             getForSale();
         }
         catch(RemoteException e){
@@ -161,6 +167,23 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
             contr.updateLog(client.getName() + " removed " + command.getItemName() +
                     " that was listed as for sale");
             getForSale();
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+    }
+    private void getBought(){
+        try{
+            contr.updateBought(marketobj.getBought(client));
+            getForSale();
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+    }
+    private void getSold(){
+        try{
+            contr.updateSold(marketobj.getSold(client));
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);

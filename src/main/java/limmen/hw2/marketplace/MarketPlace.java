@@ -28,5 +28,6 @@ public interface MarketPlace extends Remote {
     public void wish(String name, float price, Client client) throws RemoteException;
     public void removeWish(String name, float price, Client client) throws RemoteException;
     public void removeSell(String name, String descr, float price, Client client) throws RemoteException;
-    
+    public ArrayList<SoldItem> getBought(Client client) throws RemoteException;
+    public ArrayList<SoldItem> getSold(Client client) throws RemoteException;
 }

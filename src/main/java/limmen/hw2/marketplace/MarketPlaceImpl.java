@@ -27,6 +27,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     private volatile ArrayList<Client> clients = new ArrayList();
     private volatile ArrayList<ListedItem> listedItems = new ArrayList();
     private volatile ArrayList<Wish> wishes = new ArrayList();
+    private volatile ArrayList<SoldItem> sold = new ArrayList();
     
     public MarketPlaceImpl(String marketName) throws RemoteException{
         this.marketName = marketName;
@@ -43,6 +44,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
                 client.getAccount().withdraw(price);
                 i.getSeller().getAccount().deposit(price);
                 i.getSeller().itemNotification(i.getItem().getName(), i.getItem().getPrice(), client);
+                sold.add(new SoldItemImpl(i.getSeller().getName(), client.getName(), i.getItem()));
             }
             else
                 l.add(i);
@@ -94,6 +96,12 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
         for(Wish j : wishes){
             if(!j.getClient().equals(client))
                 updWishes.add(j);
+        }
+        for(SoldItem k : sold){
+            if(k.getSeller().equals(client.getName()))
+                k.SellerLeft();
+            if(k.getBuyer().equals(client.getName()))
+                k.BuyerLeft();
         }
         listedItems = updItems;
         wishes = updWishes;
@@ -158,5 +166,24 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
         }
         listedItems = items;
     }
-    
+
+    @Override
+    public synchronized ArrayList<SoldItem> getBought(Client client) throws RemoteException {
+        ArrayList<SoldItem> bought = new ArrayList();
+        for(SoldItem i : sold){
+            if(i.getBuyer().equals(client.getName()))
+                bought.add(i);
+        }
+        return bought;
+    }
+
+    @Override
+    public synchronized ArrayList<SoldItem> getSold(Client client) throws RemoteException {
+        ArrayList<SoldItem> clientSold = new ArrayList();
+        for(SoldItem i : sold){
+            if(i.getSeller().equals(client.getName()))
+                clientSold.add(i);
+        }
+        return clientSold;
+    }    
 }

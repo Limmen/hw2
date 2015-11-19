@@ -62,7 +62,12 @@ public class WishPanel extends JPanel {
         columnNames[0] = "Name";
         columnNames[1] = "Price";
         String[][] rowData = new String[0][0];
-        model = new DefaultTableModel(rowData,columnNames);
+        model = new DefaultTableModel(rowData,columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         table = new JTable(model);
         table.setRowHeight(20);
         table.setFont(Plain);        

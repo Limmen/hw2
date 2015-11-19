@@ -30,13 +30,15 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     @Override
     public void wishNotification(String name, float price) throws RemoteException{
         contr.updateLog("WISH NOTIFICATION \n" + name +
-                "have been listed on the marketplace for " + price);
+                " have been listed on the marketplace for " + price);        
     }
     
     @Override
     public void itemNotification(String name, float price, Client client) throws RemoteException{
         contr.updateLog("ITEM NOTIFICATION \n" + client.getName() + " bought "
                 + name + " from you for " + price);
+        contr.updateSold();
+        contr.updateForSale();
     }
     
     @Override
