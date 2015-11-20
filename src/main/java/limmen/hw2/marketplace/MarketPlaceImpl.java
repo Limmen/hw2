@@ -12,7 +12,7 @@ import limmen.hw2.client.model.Client;
 import limmen.hw2.client.util.RejectedException;
 
 /**
- * Marketplace implementation. extends UniCastRemoteObject to automaticly 
+ * Marketplace implementation. extends UniCastRemoteObject to automaticly
  * export the remote object.
  * Methods are declared synchronized to get some thread-safety (only one
  * thread is allowed to execute the methods at a time, the rest of the threads
@@ -166,7 +166,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
         }
         listedItems = items;
     }
-
+    
     @Override
     public synchronized ArrayList<SoldItem> getBought(Client client) throws RemoteException {
         ArrayList<SoldItem> bought = new ArrayList();
@@ -176,7 +176,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
         }
         return bought;
     }
-
+    
     @Override
     public synchronized ArrayList<SoldItem> getSold(Client client) throws RemoteException {
         ArrayList<SoldItem> clientSold = new ArrayList();
@@ -185,5 +185,5 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
                 clientSold.add(i);
         }
         return clientSold;
-    }    
+    }
 }
