@@ -9,9 +9,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import limmen.hw2.marketplace.ListedItem;
-import limmen.hw2.marketplace.SoldItem;
-import limmen.hw2.marketplace.Wish;
+import limmen.hw2.marketplace.model.ListedItem;
+import limmen.hw2.marketplace.model.SoldItem;
+import limmen.hw2.marketplace.model.Wish;
 import net.miginfocom.swing.MigLayout;
 
 /**

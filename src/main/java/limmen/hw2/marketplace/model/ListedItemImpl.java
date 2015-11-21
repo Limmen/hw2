@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package limmen.hw2.marketplace;
+package limmen.hw2.marketplace.model;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -16,9 +16,9 @@ import limmen.hw2.client.model.Client;
 public class ListedItemImpl extends UnicastRemoteObject implements ListedItem  {
     
     private final Item item;
-    private final Client seller;
+    private final String seller;
     
-    public ListedItemImpl(Item item, Client seller) throws RemoteException{
+    public ListedItemImpl(Item item, String seller) throws RemoteException{
         this.item = item;
         this.seller = seller;
     }
@@ -27,7 +27,7 @@ public class ListedItemImpl extends UnicastRemoteObject implements ListedItem  {
         return item;
     }
     @Override
-    public Client getSeller() throws RemoteException{
+    public String getSeller() throws RemoteException{
         return seller;
     }
     

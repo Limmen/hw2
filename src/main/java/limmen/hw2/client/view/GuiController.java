@@ -26,10 +26,10 @@ import limmen.hw2.client.util.BankCommandName;
 import limmen.hw2.client.util.MarketCommand;
 import limmen.hw2.client.util.MarketCommandName;
 import limmen.hw2.client.util.RejectedException;
-import limmen.hw2.marketplace.ListedItem;
-import limmen.hw2.marketplace.MarketPlace;
-import limmen.hw2.marketplace.SoldItem;
-import limmen.hw2.marketplace.Wish;
+import limmen.hw2.marketplace.model.ListedItem;
+import limmen.hw2.marketplace.model.MarketPlace;
+import limmen.hw2.marketplace.model.SoldItem;
+import limmen.hw2.marketplace.model.Wish;
 
 /**
  * GUIController.
@@ -39,7 +39,7 @@ public class GuiController {
     private static final String DEFAULT_BANK_NAME = "Nordea";
     private static final String DEFAULT_MARKET_NAME = "ID2212_Buy_and_Sell";
     private final GuiController contr = this;
-    private final RegisterFrame registerFrame;
+    private final StartFrame startFrame;
     private MainFrame mainFrame;
     private Bank bankobj;
     private MarketPlace marketobj;
@@ -48,7 +48,7 @@ public class GuiController {
     public GuiController(){
         connectToBank();
         connectToMarketPlace();
-        registerFrame = new RegisterFrame(contr);
+        startFrame = new StartFrame(contr);
     }
     
     public static void main(String[] args){
@@ -127,7 +127,7 @@ public class GuiController {
         });
     }
     public void deRegister(){
-        MarketWorker marketWorker = new MarketWorker(marketobj,new MarketCommand(MarketCommandName.deRegister, client), contr);
+        MarketWorker marketWorker = new MarketWorker(marketobj,new MarketCommand(MarketCommandName.logout, client), contr);
         BankWorker bankWorker = new BankWorker(bankobj,client, new BankCommand(BankCommandName.deleteAccount), contr);
         marketWorker.execute();
         bankWorker.execute();
@@ -179,6 +179,29 @@ public class GuiController {
             }
         });
     }
+    public void successfulReg(){
+        new BankWorker(bankobj, client, new BankCommand(BankCommandName.newAccount), contr).execute();
+        JOptionPane.showMessageDialog(null, "Registration successful",
+                        "SuccessfulRegistration", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public void failedReg(){
+        JOptionPane.showMessageDialog(null, "Your credentials are not valid"
+                        + " either the username is taken or the password is too short",
+                        "RegistrationError", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public void successfulLogin(){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mainFrame = new MainFrame(contr);
+                startFrame.setVisible(false);
+            }
+        });
+    }
+    public void failedLogin(){
+        JOptionPane.showMessageDialog(null, "Wrong username or password",
+                        "TransactionError", JOptionPane.INFORMATION_MESSAGE);
+    }
     private void connectToBank(){
         try {
             try {
@@ -210,33 +233,58 @@ public class GuiController {
     
     class RegisterListener implements ActionListener {
         private final JTextField nameField;
+        private final JTextField passwordField;
         
-        RegisterListener(JTextField nameField){
+        RegisterListener(JTextField nameField, JTextField passwordField){
             this.nameField = nameField;
+            this.passwordField = passwordField;
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(nameField.getText().length() > 0){
+            if(nameField.getText().length() > 0 && passwordField.getText().length() > 0){
                 try{
                     client = new ClientImpl(nameField.getText(), contr);
                 }
                 catch(RemoteException remoteExc){
                     contr.remoteExceptionHandler(remoteExc);
                 }
-                new BankWorker(bankobj, client, new BankCommand(BankCommandName.newAccount), contr).execute();
-                new MarketWorker(marketobj,new MarketCommand(MarketCommandName.register, client), contr).execute();
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {                        
-                        mainFrame = new MainFrame(contr);
-                        registerFrame.setVisible(false);
-                    }
-                });
+                //new BankWorker(bankobj, client, new BankCommand(BankCommandName.newAccount), contr).execute();
+                new MarketWorker(marketobj,new MarketCommand(MarketCommandName.register, client,
+                passwordField.getText()), contr).execute();
             }
             else{
                 invalidInput();
             }
             nameField.setText("");
+            passwordField.setText("");
+        }
+    }
+    class LoginListener implements ActionListener {
+        private final JTextField nameField;
+        private final JTextField passwordField;
+        
+        LoginListener(JTextField nameField, JTextField passwordField){
+            this.nameField = nameField;
+            this.passwordField = passwordField;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(nameField.getText().length() > 0 && passwordField.getText().length() > 0){
+                try{
+                    client = new ClientImpl(nameField.getText(), contr);
+                }
+                catch(RemoteException remoteExc){
+                    contr.remoteExceptionHandler(remoteExc);
+                }
+                //new BankWorker(bankobj, client, new BankCommand(BankCommandName.newAccount), contr).execute();
+                new MarketWorker(marketobj,new MarketCommand(MarketCommandName.login, client,
+                passwordField.getText()), contr).execute();
+            }
+            else{
+                invalidInput();
+            }
+            nameField.setText("");
+            passwordField.setText("");
         }
     }
     
@@ -246,13 +294,13 @@ public class GuiController {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            new MarketWorker(marketobj,new MarketCommand(MarketCommandName.deRegister, client), contr).execute();
+            new MarketWorker(marketobj,new MarketCommand(MarketCommandName.logout, client), contr).execute();
             new BankWorker(bankobj,client, new BankCommand(BankCommandName.deleteAccount), contr).execute();
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mainFrame.dispose();
-                    registerFrame.setVisible(true);
+                    startFrame.setVisible(true);
                 }
             });
             

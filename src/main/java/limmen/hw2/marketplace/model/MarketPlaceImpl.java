@@ -3,13 +3,18 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-package limmen.hw2.marketplace;
+package limmen.hw2.marketplace.model;
 
+import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import limmen.hw2.bank.Bank;
 import limmen.hw2.client.model.Client;
 import limmen.hw2.client.util.RejectedException;
+import limmen.hw2.marketplace.integration.DBhandler;
+import limmen.hw2.marketplace.integration.QueryManager;
 
 /**
  * Marketplace implementation. extends UniCastRemoteObject to automaticly
@@ -22,29 +27,35 @@ import limmen.hw2.client.util.RejectedException;
  * @author kim
  */
 public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace {
-    
+    private static final String DEFAULT_BANK_NAME = "Nordea";
     private final String marketName;
-    private volatile ArrayList<Client> clients = new ArrayList();
-    private volatile ArrayList<ListedItem> listedItems = new ArrayList();
-    private volatile ArrayList<Wish> wishes = new ArrayList();
-    private volatile ArrayList<SoldItem> sold = new ArrayList();
+    private volatile ArrayList<Client> loggedInClients = new ArrayList();
+    private DBhandler db;
+    private QueryManager qm;
+    private Bank bankobj;
     
     public MarketPlaceImpl(String marketName) throws RemoteException{
         this.marketName = marketName;
+        db = new DBhandler();
+        qm = new QueryManager(db);
+        connectToBank();
     }
     
     @Override
     public synchronized void Buy(String name, String descr, float price, String seller, Client client) throws RemoteException, RejectedException {
+        ArrayList<ListedItem> listedItems = qm.getListedItems();
         ArrayList<ListedItem> l = new ArrayList();
         for(ListedItem i : listedItems){
             if(i.getItem().getName().equals(name) &&
                     i.getItem().getDescription().equals(descr) &&
                     i.getItem().getPrice() == price &&
-                    i.getSeller().getName().equals(seller)){
+                    i.getSeller().equals(seller)){
                 client.getAccount().withdraw(price);
-                i.getSeller().getAccount().deposit(price);
-                i.getSeller().itemNotification(i.getItem().getName(), i.getItem().getPrice(), client);
-                sold.add(new SoldItemImpl(i.getSeller().getName(), client.getName(), i.getItem()));
+                bankobj.getAccount(seller).deposit(price);
+                Client c = getClient(seller);
+                if(c != null)
+                    c.itemNotification(i.getItem().getName(), i.getItem().getPrice(), client);
+                qm.newSoldItem(client.getName(), seller, i.getItem().getId());
             }
             else
                 l.add(i);
@@ -53,80 +64,60 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     }
     @Override
     public synchronized void Sell(String name, String descr, float price, Client client) throws RemoteException {
+        ArrayList<Wish> wishes = qm.getWishes();
         for(Wish i : wishes){
-            if(i.getName().equals(name) && price <= i.getPrice()){
-                i.getClient().wishNotification(name, price);
+            if(i.getItem().getName().equals(name) && price <= i.getItem().getPrice()){
+                Client wisher = getClient(i.getUser());
+                if(wisher != null)
+                    wisher.wishNotification(name, price);
             }
         }
-        listedItems.add(new ListedItemImpl(new ItemImpl(name,descr,price), client));
+        qm.newListedItem(name, descr, price, client.getName());        
     }
     
     @Override
-    public synchronized void register(Client client) throws RemoteException, RejectedException {
+    public synchronized void register(Client client, String pw) throws RemoteException, RejectedException {
         boolean bool = true;
-        for(Client cli : clients){
-            if(cli.equals(client)){
+        ArrayList<String> users = qm.getUsers();
+        for(String user : users){
+            if(user.equals(client.getName())){
                 bool = false;
                 throw new RejectedException("Rejected: " + this.getClass()
                         + marketName
                         + "You are already registered ");
-                
-            }if(cli.getName().equals(client.getName())){
-                bool = false;
-                throw new RejectedException("Rejected: " + this.getClass()
-                        + marketName
-                        + "A client with that name is already registered"
-                        + "at the marketplace");
             }
         }
         if(bool)
-            clients.add(client);
+           qm.newUser(client.getName(), pw);
     }
     
     @Override
-    public synchronized void deRegister(Client client) throws RemoteException {
-        ArrayList<ListedItem> updItems = new ArrayList();
-        ArrayList<Wish> updWishes = new ArrayList();
-        if(clients.contains(client))
-            clients.remove(client);
-        for(ListedItem i : listedItems){
-            if(!i.getSeller().equals(client))
-                updItems.add(i);
-        }
-        for(Wish j : wishes){
-            if(!j.getClient().equals(client))
-                updWishes.add(j);
-        }
-        for(SoldItem k : sold){
-            if(k.getSeller().equals(client.getName()))
-                k.SellerLeft();
-            if(k.getBuyer().equals(client.getName()))
-                k.BuyerLeft();
-        }
-        listedItems = updItems;
-        wishes = updWishes;
+    public synchronized void logOut(Client client) throws RemoteException {
+        if(loggedInClients.contains(client))
+            loggedInClients.remove(client);        
     }
     
     @Override
     public synchronized ArrayList<ListedItem> listItems() throws RemoteException {
-        return listedItems;
+        return qm.getListedItems();
     }
     
     @Override
     public synchronized void wish(String name, float price,  Client client) throws RemoteException {
-        wishes.add(new WishImpl(name , price, client));
+        qm.newWish(name, price, client.getName());
     }
-    
+  /*  
     @Override
     public synchronized ArrayList<Client> listClients() throws RemoteException {
         return clients;
     }
-    
+   */ 
     @Override
     public synchronized ArrayList<Wish> getWishes(Client client) throws RemoteException {
+        ArrayList<Wish> wishes = qm.getWishes();
         ArrayList<Wish> clientwishes = new ArrayList();
         for(Wish w : wishes){
-            if(w.getClient().equals(client))
+            if(w.getUser().equals(client.getName()))
                 clientwishes.add(w);
             
         }
@@ -135,9 +126,10 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     
     @Override
     public synchronized ArrayList<ListedItem> getForSale(Client client) throws RemoteException {
+        ArrayList<ListedItem> listedItems = qm.getListedItems();
         ArrayList<ListedItem> forSale = new ArrayList();
         for(ListedItem i : listedItems){
-            if(i.getSeller().equals(client))
+            if(i.getSeller().equals(client.getName()))
                 forSale.add(i);
         }
         return forSale;
@@ -145,30 +137,18 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     
     @Override
     public synchronized void removeWish(String name, float price, Client client) throws RemoteException {
-        ArrayList<Wish> updWishes = new ArrayList();
-        for(Wish i : wishes){
-            if(!i.getClient().equals(client) && i.getName().equals(name)
-                    && i.getPrice() == price)
-                updWishes.add(i);
-        }
-        wishes = updWishes;
+        qm.removeWish(name, price, client.getName());
+
     }
     
     @Override
     public synchronized void removeSell(String name, String descr, float price, Client client) throws RemoteException {
-        ArrayList<ListedItem> items = new ArrayList();
-        for(ListedItem i : listedItems){
-            if(!i.getItem().getName().equals(name) &&
-                    i.getItem().getDescription().equals(descr) &&
-                    i.getItem().getPrice() == price &&
-                    i.getSeller().equals(client))
-                items.add(i);
-        }
-        listedItems = items;
+        qm.removeListedItem(name, descr, price, client.getName());
     }
     
     @Override
     public synchronized ArrayList<SoldItem> getBought(Client client) throws RemoteException {
+        ArrayList<SoldItem> sold = qm.getSold();
         ArrayList<SoldItem> bought = new ArrayList();
         for(SoldItem i : sold){
             if(i.getBuyer().equals(client.getName()))
@@ -179,11 +159,34 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     
     @Override
     public synchronized ArrayList<SoldItem> getSold(Client client) throws RemoteException {
+        ArrayList<SoldItem> sold = qm.getSold();
         ArrayList<SoldItem> clientSold = new ArrayList();
         for(SoldItem i : sold){
             if(i.getSeller().equals(client.getName()))
                 clientSold.add(i);
         }
         return clientSold;
+    }
+    
+    private Client getClient(String name) throws RemoteException{
+        for(Client i : loggedInClients){
+            if(i.getName().equals(name))
+                return i;
+        }
+        return null;
+    }
+    private void connectToBank(){
+        try {
+            try {
+                LocateRegistry.getRegistry(1099).list();
+            } catch (RemoteException e) {
+                LocateRegistry.createRegistry(1099);
+            }
+            bankobj = (Bank) Naming.lookup(DEFAULT_BANK_NAME);
+        } catch (Exception e) {
+            System.out.println("The runtime failed: " + e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Connected to bank: " + DEFAULT_BANK_NAME);
     }
 }

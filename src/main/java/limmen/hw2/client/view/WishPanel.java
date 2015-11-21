@@ -16,7 +16,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import limmen.hw2.client.view.GuiController.WishListener;
-import limmen.hw2.marketplace.Wish;
+import limmen.hw2.marketplace.model.Wish;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -84,8 +84,8 @@ public class WishPanel extends JPanel {
             for(int i = 0; i <  wishes.size(); i++)
             {
                 Wish w  = wishes.get(i);
-                rowData[i][0] = w.getName();
-                rowData[i][1] = Float.toString(w.getPrice());
+                rowData[i][0] = w.getUser();
+                rowData[i][1] = Float.toString(w.getItem().getPrice());
             }
             model.setDataVector(rowData, columnNames);
         }

@@ -18,6 +18,7 @@ public class MarketCommand {
     private String itemDescr = "";
     private float price = 0;
     private String seller = "";
+    private String password = "";
     
     /* Constructor for buy-commands*/
     public MarketCommand(MarketCommandName command, Client client, String itemName, String itemDescr, float price, String seller) {
@@ -42,6 +43,12 @@ public class MarketCommand {
         this.client = client;
         this.itemName = itemName;
         this.price = price;
+    }
+    /* Constructor for register-command */
+    public MarketCommand(MarketCommandName command, Client client, String password) {
+        this.command = command;
+        this.client = client;
+        this.password = password;
     }
     /* Constructor for get-commands */
     public MarketCommand(MarketCommandName command, Client client) {
@@ -69,6 +76,10 @@ public class MarketCommand {
 
     public String getSeller() {
         return seller;
+    }
+
+    public String getPassword() {
+        return password;
     }
     
 }

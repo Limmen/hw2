@@ -16,8 +16,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
-import limmen.hw2.marketplace.ListedItem;
-import limmen.hw2.marketplace.SoldItem;
+import limmen.hw2.marketplace.model.ListedItem;
+import limmen.hw2.marketplace.model.SoldItem;
 import net.miginfocom.swing.MigLayout;
 
 /**

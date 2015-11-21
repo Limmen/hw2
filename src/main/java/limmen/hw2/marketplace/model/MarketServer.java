@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package limmen.hw2.marketplace;
+package limmen.hw2.marketplace.model;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;

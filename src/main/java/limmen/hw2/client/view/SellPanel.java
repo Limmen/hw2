@@ -15,7 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import limmen.hw2.marketplace.ListedItem;
+import limmen.hw2.marketplace.model.ListedItem;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -94,7 +94,7 @@ public class SellPanel extends JPanel {
                 rowData[i][0] = item.getItem().getName();
                 rowData[i][1] = item.getItem().getDescription();
                 rowData[i][2] = Float.toString(item.getItem().getPrice());
-                rowData[i][3] = item.getSeller().getName();
+                rowData[i][3] = item.getSeller();
             }
             catch(RemoteException e){
                 contr.remoteExceptionHandler(e);

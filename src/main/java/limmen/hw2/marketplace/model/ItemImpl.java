@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package limmen.hw2.marketplace;
+package limmen.hw2.marketplace.model;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -17,8 +17,10 @@ public class ItemImpl extends UnicastRemoteObject implements Item {
     private final float price;
     private final String name;
     private final String description;
+    private int id;
 
-    public ItemImpl(String name, String description,float price) throws RemoteException{
+    public ItemImpl(int id, String name, String description,float price) throws RemoteException{
+        this.id = id;
         this.price = price;
         this.name = name;
         this.description = description;
@@ -46,4 +48,10 @@ public class ItemImpl extends UnicastRemoteObject implements Item {
     public String toString(){
         return name + "\n" + description + "\n" + price;
     }
+
+    @Override
+    public int getId() throws RemoteException {
+        return id;
+    }
+    
 }

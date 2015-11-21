@@ -10,7 +10,7 @@ import javax.swing.SwingWorker;
 import limmen.hw2.client.view.GuiController;
 import limmen.hw2.client.util.MarketCommand;
 import limmen.hw2.client.util.RejectedException;
-import limmen.hw2.marketplace.MarketPlace;
+import limmen.hw2.marketplace.model.MarketPlace;
 
 /**
  * Marketworker class. This class does remote method invocation on the
@@ -43,8 +43,11 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
             case wish:
                 wish();
                 break;
-            case deRegister:
-                deRegister();
+            case logout:
+                logOut();
+                break;
+            case login:
+                logIn();
                 break;
             case listItems:
                 listItems();
@@ -109,19 +112,20 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
     }
     private void register(){
         try{
-            marketobj.register(client);
-            contr.updateLog(client.getName() + " registered at the marketplace");
+            marketobj.register(client, command.getPassword());
+            contr.successfulReg();
+            //contr.updateLog(client.getName() + " registered at the marketplace");
         }
         catch(RejectedException e){
-            contr.rejectedExceptionHandler(e);
+            contr.failedReg();
         }
         catch(RemoteException e2){
             contr.remoteExceptionHandler(e2);
         }
     }
-    private void deRegister(){
+    private void logOut(){
         try{
-            marketobj.deRegister(command.getClient());
+            marketobj.logOut(command.getClient());
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);
@@ -188,5 +192,14 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);
         }
+    }
+    private void logIn(){
+        /*
+        try{
+            contr.updateSold(marketobj.getSold(client));
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }*/
     }
 }

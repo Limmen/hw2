@@ -13,9 +13,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
-import limmen.hw2.marketplace.ListedItem;
-import limmen.hw2.marketplace.SoldItem;
-import limmen.hw2.marketplace.Wish;
+import limmen.hw2.marketplace.model.ListedItem;
+import limmen.hw2.marketplace.model.SoldItem;
+import limmen.hw2.marketplace.model.Wish;
 import net.miginfocom.swing.MigLayout;
 
 /**

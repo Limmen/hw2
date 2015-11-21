@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package limmen.hw2.marketplace;
+package limmen.hw2.marketplace.model;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -17,4 +17,5 @@ public interface Item extends Remote {
     public String getName() throws RemoteException;
     public String getDescription() throws RemoteException;
     public float getPrice() throws RemoteException;
+    public int getId() throws RemoteException;
 }
