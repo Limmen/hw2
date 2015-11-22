@@ -44,6 +44,9 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
             case deposit:
                 deposit();
                 break;
+            case getAccount:
+                getAccount();
+                break;
         }
         return true;
     }
@@ -92,6 +95,14 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
         }
         catch(RejectedException e2){
             
+        }
+    }
+    private void getAccount(){
+        try{
+            client.setAccount(bankobj.getAccount(client.getName()));
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
         }
     }
     

@@ -149,7 +149,7 @@ public class MainFrame extends JFrame {
         return menuBar;
     }
     private void deRegister(){
-        contr.deRegister();
+        contr.logOut();
     }
     public void updateWishes(ArrayList<Wish> wishes){
         container.updateWishes(wishes);

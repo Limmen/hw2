@@ -126,14 +126,11 @@ public class GuiController {
             }
         });
     }
-    public void deRegister(){
+    public void logOut(){
         MarketWorker marketWorker = new MarketWorker(marketobj,new MarketCommand(MarketCommandName.logout, client), contr);
-        BankWorker bankWorker = new BankWorker(bankobj,client, new BankCommand(BankCommandName.deleteAccount), contr);
         marketWorker.execute();
-        bankWorker.execute();
         try{
             marketWorker.get();
-            bankWorker.get();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -180,7 +177,6 @@ public class GuiController {
         });
     }
     public void successfulReg(){
-        System.out.println("successful reg");
         new BankWorker(bankobj, client, new BankCommand(BankCommandName.newAccount), contr).execute();
         JOptionPane.showMessageDialog(null, "Registration successful",
                         "SuccessfulRegistration", JOptionPane.INFORMATION_MESSAGE);
@@ -193,11 +189,14 @@ public class GuiController {
     public void successfulLogin(){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run() {
+            public void run() {                
                 mainFrame = new MainFrame(contr);
                 startFrame.setVisible(false);
             }
         });
+    }
+    public void setAccount(){
+        new BankWorker(bankobj,client, new BankCommand(BankCommandName.getAccount), contr).execute();
     }
     public void failedLogin(){
         JOptionPane.showMessageDialog(null, "Wrong username or password",
@@ -289,14 +288,13 @@ public class GuiController {
         }
     }
     
-    class DeRegisterListener implements ActionListener {
+    class logOutListener implements ActionListener {
         
-        DeRegisterListener(){
+        logOutListener(){
         }
         @Override
         public void actionPerformed(ActionEvent e) {
             new MarketWorker(marketobj,new MarketCommand(MarketCommandName.logout, client), contr).execute();
-            new BankWorker(bankobj,client, new BankCommand(BankCommandName.deleteAccount), contr).execute();
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {

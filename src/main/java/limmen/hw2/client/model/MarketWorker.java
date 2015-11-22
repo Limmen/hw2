@@ -197,8 +197,10 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
     private void logIn(){
         
         try{
-            if(marketobj.login(client, command.getPassword()))
-                contr.successfulLogin();
+            if(marketobj.login(client, command.getPassword())){
+                contr.setAccount();
+                contr.successfulLogin();   
+            }
             else
                 contr.failedLogin();
         }

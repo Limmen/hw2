@@ -45,6 +45,7 @@ public class QueryManager {
             }
             catch(SQLException e){
                 e.printStackTrace();
+                return items;
             }
             finally{
                 try{
@@ -77,6 +78,7 @@ public class QueryManager {
             }
             catch(SQLException e){
                 e.printStackTrace();
+                return listedItems;
             }
             finally{
                 try{
@@ -99,17 +101,18 @@ public class QueryManager {
         if(db.isConnected()){
             try{
                 String sql = "SELECT * FROM item"
-                        + "WHERE itemId = " + id
+                        + " WHERE itemId = " + id
                         + ";";
                 stmt = db.getConnection().createStatement();
                 res = stmt.executeQuery(sql);
                 while(res.next()){
-                    item = new ItemImpl(res.getInt("itemId"), res.getString("name"),
+                    item = new ItemImpl(res.getInt("itemId"), res.getString("itemname"),
                             res.getString("description"), res.getFloat("price"));
                 }
             }
             catch(SQLException e){
                 e.printStackTrace();
+                return item;
             }
             finally{
                 try{
@@ -154,7 +157,7 @@ public class QueryManager {
         Statement stmt = null;
         if(db.isConnected()){
             try{
-                String sql = "INSERT INTO item(description,name,price)"
+                String sql = "INSERT INTO item(description,itemname,price)"
                         + " VALUES('" + descr + "' ,'" + name + "' , " + price
                         + ");";
                 stmt = db.getConnection().createStatement();
@@ -164,7 +167,7 @@ public class QueryManager {
                 e.printStackTrace();
             }
             finally{
-                try{                    
+                try{
                     if(stmt != null)
                         stmt.close();
                 }
@@ -186,10 +189,10 @@ public class QueryManager {
                 res = stmt.executeQuery(sql);
                 int itemid = -1;
                 while(res.next()){
-                    itemid = res.getInt("itemId");                    
+                    itemid = res.getInt("itemId");
                 }
-                sql = "INSERT INTO wish(itemid, member)"
-                        + "VALUES(" + itemid + ",'" + user+"');";
+                sql = "INSERT INTO wish(itemid, wisher)"
+                        + " VALUES(" + itemid + ",'" + user+"');";
                 stmt = db.getConnection().createStatement();
                 stmt.executeUpdate(sql);
             }
@@ -219,11 +222,12 @@ public class QueryManager {
                 stmt = db.getConnection().createStatement();
                 res = stmt.executeQuery(sql);
                 while(res.next()){
-                    users.add (res.getString("username"));                    
+                    users.add (res.getString("username"));
                 }
             }
             catch(SQLException e){
                 e.printStackTrace();
+                return users;
             }
             finally{
                 try{
@@ -247,7 +251,7 @@ public class QueryManager {
                         + " VALUES('" + user + "' ,'" + pw
                         + "');";
                 stmt = db.getConnection().createStatement();
-                stmt.executeUpdate(sql);                
+                stmt.executeUpdate(sql);
             }
             catch(SQLException e){
                 e.printStackTrace();
@@ -279,6 +283,7 @@ public class QueryManager {
             }
             catch(SQLException e){
                 e.printStackTrace();
+                return wishes;
             }
             finally{
                 try{
@@ -362,7 +367,7 @@ public class QueryManager {
         if(db.isConnected()){
             try{
                 String sql = "DELETE FROM listeditem WHERE itemID IN("
-                        + "SELECT * FROM item WHERE itemname ='" + itemname +
+                        + "SELECT itemID FROM item WHERE itemname ='" + itemname +
                         "' AND price = " + price + "AND description = '"
                         + descr + "')" + "AND seller "
                         + "='" + user + "';";
@@ -401,6 +406,7 @@ public class QueryManager {
             }
             catch(SQLException e){
                 e.printStackTrace();
+                return sold;
             }
             finally{
                 try{
@@ -432,6 +438,7 @@ public class QueryManager {
             }
             catch(SQLException e){
                 e.printStackTrace();
+                return pw;
             }
             finally{
                 try{

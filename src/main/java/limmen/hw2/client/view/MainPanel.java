@@ -16,7 +16,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
-import limmen.hw2.marketplace.model.ListedItem;
 import limmen.hw2.marketplace.model.SoldItem;
 import net.miginfocom.swing.MigLayout;
 
@@ -47,9 +46,9 @@ public class MainPanel extends JPanel{
         }
         lbl.setFont(Title);
         add(lbl, "span 2");
-        JButton deRegButton = new JButton("DeRegister");
+        JButton deRegButton = new JButton("log out");
         deRegButton.setFont(Title);
-        deRegButton.addActionListener(contr.new DeRegisterListener());
+        deRegButton.addActionListener(contr.new logOutListener());
         add(deRegButton, "span 2, gaptop 15");
         lbl = new JLabel("Your notifications and history");
         lbl.setFont(Plain);

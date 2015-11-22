@@ -55,6 +55,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
                 Client c = getClient(seller);
                 if(c != null)
                     c.itemNotification(i.getItem().getName(), i.getItem().getPrice(), client);
+                qm.removeListedItem(name, descr, price, seller);
                 qm.newSoldItem(client.getName(), seller, i.getItem().getId());
             }
             else
@@ -194,8 +195,10 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     public boolean login(Client client, String password) throws RemoteException {
         String pw = qm.getPassword(client.getName());
         if(pw != null){
-            if(pw.equals(password))
+            if(pw.equals(password)){
+                loggedInClients.add(client);
                 return true;
+            }
         }
         return false;
     }
