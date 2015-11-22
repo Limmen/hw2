@@ -51,7 +51,7 @@ public class BankWorker extends SwingWorker <Boolean, Boolean> {
     private void newAccount(){
         try{
             client.setAccount(bankobj.newAccount(client.getName()));            
-            contr.updateLog(client.getName() + " created a new bankaccount at:  " + contr.getBankName());
+//            contr.updateLog(client.getName() + " created a new bankaccount at:  " + contr.getBankName());
         }
         catch(RejectedException e){
             contr.rejectedExceptionHandler(e);

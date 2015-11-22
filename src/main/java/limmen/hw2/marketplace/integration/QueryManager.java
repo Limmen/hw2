@@ -50,6 +50,8 @@ public class QueryManager {
                 try{
                     if(res != null)
                         res.close();
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -80,6 +82,8 @@ public class QueryManager {
                 try{
                     if(res != null)
                         res.close();
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -111,6 +115,8 @@ public class QueryManager {
                 try{
                     if(res != null)
                         res.close();
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -121,23 +127,22 @@ public class QueryManager {
     }
     
     public void newSoldItem(String buyer, String seller, int itemId) throws RemoteException{
-        ResultSet res = null;
         Statement stmt = null;
         if(db.isConnected()){
             try{
                 String sql = "INSERT INTO solditem(buyer,seller,itemID)"
-                        + " VALUES(" + buyer + " ," + seller + " , " + itemId
+                        + " VALUES('" + buyer + "' ,'" + seller + "' , " + itemId
                         + ");";
                 stmt = db.getConnection().createStatement();
-                res = stmt.executeQuery(sql);
+                stmt.executeUpdate(sql);
             }
             catch(SQLException e){
                 e.printStackTrace();
             }
             finally{
                 try{
-                    if(res != null)
-                        res.close();
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -146,23 +151,22 @@ public class QueryManager {
         }
     }
     public void newItem(String descr, String name, float price) throws RemoteException{
-        ResultSet res = null;
         Statement stmt = null;
         if(db.isConnected()){
             try{
                 String sql = "INSERT INTO item(description,name,price)"
-                        + " VALUES(" + descr + " ," + name + " , " + price
+                        + " VALUES('" + descr + "' ,'" + name + "' , " + price
                         + ");";
                 stmt = db.getConnection().createStatement();
-                res = stmt.executeQuery(sql);
+                stmt.executeUpdate(sql);
             }
             catch(SQLException e){
                 e.printStackTrace();
             }
             finally{
-                try{
-                    if(res != null)
-                        res.close();
+                try{                    
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -176,8 +180,8 @@ public class QueryManager {
         Statement stmt = null;
         if(db.isConnected()){
             try{
-                String sql = "SELECT itemID FROM item WHERE itemname ="
-                        + itemname + " AND price  =" + price + ";";
+                String sql = "SELECT itemID FROM item WHERE itemname ='"
+                        + itemname + "' AND price  =" + price + ";";
                 stmt = db.getConnection().createStatement();
                 res = stmt.executeQuery(sql);
                 int itemid = -1;
@@ -185,9 +189,9 @@ public class QueryManager {
                     itemid = res.getInt("itemId");                    
                 }
                 sql = "INSERT INTO wish(itemid, member)"
-                        + "VALUES(" + itemid + "," + user+" );";
+                        + "VALUES(" + itemid + ",'" + user+"');";
                 stmt = db.getConnection().createStatement();
-                res = stmt.executeQuery(sql);
+                stmt.executeUpdate(sql);
             }
             catch(SQLException e){
                 e.printStackTrace();
@@ -196,6 +200,8 @@ public class QueryManager {
                 try{
                     if(res != null)
                         res.close();
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -223,6 +229,8 @@ public class QueryManager {
                 try{
                     if(res != null)
                         res.close();
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -232,23 +240,22 @@ public class QueryManager {
         return users;
     }
     public void newUser(String user, String pw) throws RemoteException{
-        ResultSet res = null;
         Statement stmt = null;
         if(db.isConnected()){
             try{
                 String sql = "INSERT INTO member(username,password)"
-                        + " VALUES(" + user + " ," + pw
-                        + ");";
+                        + " VALUES('" + user + "' ,'" + pw
+                        + "');";
                 stmt = db.getConnection().createStatement();
-                res = stmt.executeQuery(sql);
+                stmt.executeUpdate(sql);                
             }
             catch(SQLException e){
                 e.printStackTrace();
             }
             finally{
                 try{
-                    if(res != null)
-                        res.close();
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -277,6 +284,8 @@ public class QueryManager {
                 try{
                     if(res != null)
                         res.close();
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -291,9 +300,9 @@ public class QueryManager {
         Statement stmt = null;
         if(db.isConnected()){
             try{
-                String sql = "SELECT itemID FROM item WHERE itemname ="
-                        + itemname + " AND price  =" + price
-                        + "AND description = " + descr + ";";
+                String sql = "SELECT itemID FROM item WHERE itemname ='"
+                        + itemname + "' AND price  =" + price
+                        + "AND description = '" + descr + "';";
                 stmt = db.getConnection().createStatement();
                 res = stmt.executeQuery(sql);
                 int itemid = -1;
@@ -301,9 +310,9 @@ public class QueryManager {
                     itemid = res.getInt("itemId");
                 }
                 sql = "INSERT INTO listeditem(itemid, seller)"
-                        + "VALUES(" + itemid + "," + user+" );";
+                        + "VALUES(" + itemid + ",'" + user+"');";
                 stmt = db.getConnection().createStatement();
-                res = stmt.executeQuery(sql);
+                stmt.executeUpdate(sql);
             }
             catch(SQLException e){
                 e.printStackTrace();
@@ -312,6 +321,8 @@ public class QueryManager {
                 try{
                     if(res != null)
                         res.close();
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -321,24 +332,23 @@ public class QueryManager {
     }
     
     public void removeWish(String itemname, float price, String user) throws RemoteException{
-        ResultSet res = null;
         Statement stmt = null;
         if(db.isConnected()){
             try{
                 String sql = "DELETE FROM wish WHERE itemID IN("
-                        + "SELECT * FROM item WHERE itemname =" + itemname +
-                        " AND price = " + price + ")" + "AND wisher "
-                        + "=" + user;
+                        + "SELECT * FROM item WHERE itemname ='" + itemname +
+                        "' AND price = " + price + ")" + "AND wisher "
+                        + "='" + user + "';";
                 stmt = db.getConnection().createStatement();
-                res = stmt.executeQuery(sql);
+                stmt.executeUpdate(sql);
             }
             catch(SQLException e){
                 e.printStackTrace();
             }
             finally{
                 try{
-                    if(res != null)
-                        res.close();
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -348,25 +358,24 @@ public class QueryManager {
     }
     
     public void removeListedItem(String itemname,String descr,float price, String user) throws RemoteException{
-        ResultSet res = null;
         Statement stmt = null;
         if(db.isConnected()){
             try{
                 String sql = "DELETE FROM listeditem WHERE itemID IN("
-                        + "SELECT * FROM item WHERE itemname =" + itemname +
-                        " AND price = " + price + "AND description = "
-                        + descr + ")" + "AND seller "
-                        + "=" + user;
+                        + "SELECT * FROM item WHERE itemname ='" + itemname +
+                        "' AND price = " + price + "AND description = '"
+                        + descr + "')" + "AND seller "
+                        + "='" + user + "';";
                 stmt = db.getConnection().createStatement();
-                res = stmt.executeQuery(sql);
+                stmt.executeUpdate(sql);
             }
             catch(SQLException e){
                 e.printStackTrace();
             }
             finally{
                 try{
-                    if(res != null)
-                        res.close();
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -397,6 +406,8 @@ public class QueryManager {
                 try{
                     if(res != null)
                         res.close();
+                    if(stmt != null)
+                        stmt.close();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -404,6 +415,37 @@ public class QueryManager {
             }
         }
         return sold;
+    }
+    public String getPassword(String user) throws RemoteException{
+        ResultSet res = null;
+        Statement stmt = null;
+        String pw = null;
+        if(db.isConnected()){
+            try{
+                String sql = "SELECT password FROM member"
+                        + " WHERE username ='" + user + "';";
+                stmt = db.getConnection().createStatement();
+                res = stmt.executeQuery(sql);
+                while(res.next()){
+                    pw = res.getString("password");
+                }
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
+            finally{
+                try{
+                    if(res != null)
+                        res.close();
+                    if(stmt != null)
+                        stmt.close();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        return pw;
     }
     
 }

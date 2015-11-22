@@ -84,7 +84,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
                 bool = false;
                 throw new RejectedException("Rejected: " + this.getClass()
                         + marketName
-                        + "You are already registered ");
+                        + "That username is taken ");
             }
         }
         if(bool)
@@ -188,5 +188,15 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
             System.exit(0);
         }
         System.out.println("Connected to bank: " + DEFAULT_BANK_NAME);
+    }
+
+    @Override
+    public boolean login(Client client, String password) throws RemoteException {
+        String pw = qm.getPassword(client.getName());
+        if(pw != null){
+            if(pw.equals(password))
+                return true;
+        }
+        return false;
     }
 }

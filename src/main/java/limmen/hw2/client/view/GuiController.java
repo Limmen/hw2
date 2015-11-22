@@ -180,6 +180,7 @@ public class GuiController {
         });
     }
     public void successfulReg(){
+        System.out.println("successful reg");
         new BankWorker(bankobj, client, new BankCommand(BankCommandName.newAccount), contr).execute();
         JOptionPane.showMessageDialog(null, "Registration successful",
                         "SuccessfulRegistration", JOptionPane.INFORMATION_MESSAGE);
@@ -241,7 +242,7 @@ public class GuiController {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(nameField.getText().length() > 0 && passwordField.getText().length() > 0){
+            if(nameField.getText().length() > 0 && passwordField.getText().length() >= 8){
                 try{
                     client = new ClientImpl(nameField.getText(), contr);
                 }

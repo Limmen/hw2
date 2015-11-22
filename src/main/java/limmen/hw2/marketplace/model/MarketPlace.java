@@ -21,6 +21,7 @@ public interface MarketPlace extends Remote {
     public void Sell(String name, String descr, float price, Client client) throws RemoteException;
     public void register(Client client, String password) throws RemoteException, RejectedException;
     public void logOut(Client client) throws RemoteException;
+    public boolean login(Client client, String password) throws RemoteException;
     public ArrayList<ListedItem> listItems() throws RemoteException;
     //public ArrayList<Client> listClients() throws RemoteException;
     public ArrayList<Wish> getWishes(Client client) throws RemoteException;

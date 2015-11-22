@@ -111,6 +111,7 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
         }
     }
     private void register(){
+        System.out.println("registering");
         try{
             marketobj.register(client, command.getPassword());
             contr.successfulReg();
@@ -194,12 +195,15 @@ public class MarketWorker extends SwingWorker<Boolean,Boolean> {
         }
     }
     private void logIn(){
-        /*
+        
         try{
-            contr.updateSold(marketobj.getSold(client));
+            if(marketobj.login(client, command.getPassword()))
+                contr.successfulLogin();
+            else
+                contr.failedLogin();
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);
-        }*/
+        }
     }
 }
