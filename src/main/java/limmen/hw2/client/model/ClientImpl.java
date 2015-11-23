@@ -7,7 +7,7 @@ package limmen.hw2.client.model;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import limmen.hw2.bank.Account;
+import limmen.hw2.bank.model.Account;
 import limmen.hw2.client.view.GuiController;
 
 /**

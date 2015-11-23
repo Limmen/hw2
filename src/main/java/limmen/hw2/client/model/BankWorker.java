@@ -7,7 +7,7 @@ package limmen.hw2.client.model;
 
 import java.rmi.RemoteException;
 import javax.swing.SwingWorker;
-import limmen.hw2.bank.Bank;
+import limmen.hw2.bank.model.Bank;
 import limmen.hw2.client.view.GuiController;
 import limmen.hw2.client.util.BankCommand;
 import limmen.hw2.client.util.RejectedException;

@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import limmen.hw2.bank.Bank;
+import limmen.hw2.bank.model.Bank;
 import limmen.hw2.client.model.Client;
 import limmen.hw2.client.util.RejectedException;
 import limmen.hw2.marketplace.integration.DBhandler;

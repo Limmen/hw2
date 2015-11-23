@@ -7,7 +7,7 @@ package limmen.hw2.client.model;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import limmen.hw2.bank.Account;
+import limmen.hw2.bank.model.Account;
 
 /**
  * Remote interface for the client. This interface is used by the server

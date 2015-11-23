@@ -341,7 +341,7 @@ public class QueryManager {
         if(db.isConnected()){
             try{
                 String sql = "DELETE FROM wish WHERE itemID IN("
-                        + "SELECT * FROM item WHERE itemname ='" + itemname +
+                        + "SELECT itemID FROM item WHERE itemname ='" + itemname +
                         "' AND price = " + price + ")" + "AND wisher "
                         + "='" + user + "';";
                 stmt = db.getConnection().createStatement();

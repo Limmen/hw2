@@ -1,4 +1,4 @@
-package limmen.hw2.bank;
+package limmen.hw2.bank.model;
 
 import limmen.hw2.client.util.RejectedException;
 import java.rmi.Remote;

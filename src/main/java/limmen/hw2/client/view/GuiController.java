@@ -16,7 +16,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import limmen.hw2.bank.Bank;
+import limmen.hw2.bank.model.Bank;
 import limmen.hw2.client.model.BankWorker;
 import limmen.hw2.client.model.Client;
 import limmen.hw2.client.model.ClientImpl;
