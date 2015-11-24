@@ -84,7 +84,7 @@ public class WishPanel extends JPanel {
             for(int i = 0; i <  wishes.size(); i++)
             {
                 Wish w  = wishes.get(i);
-                rowData[i][0] = w.getUser();
+                rowData[i][0] = w.getItem().getName();
                 rowData[i][1] = Float.toString(w.getItem().getPrice());
             }
             model.setDataVector(rowData, columnNames);

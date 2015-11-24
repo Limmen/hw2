@@ -193,7 +193,7 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
 
     @Override
     public boolean login(Client client, String password) throws RemoteException {
-        String pw = qm.getPassword(client.getName());
+        String pw = qm.getUserPassword(client.getName());
         if(pw != null){
             if(pw.equals(password)){
                 loggedInClients.add(client);
