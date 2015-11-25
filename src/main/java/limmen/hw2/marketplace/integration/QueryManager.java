@@ -29,6 +29,7 @@ public class QueryManager {
     private PreparedStatement getItemIDStatement;
     private PreparedStatement getItemDataStatement;
     private PreparedStatement newItemStatement;
+    private PreparedStatement removeItemStatement;   
     private PreparedStatement getListedItemsStatement;
     private PreparedStatement newListedItemStatement;
     private PreparedStatement removeListedItemStatement;
@@ -56,6 +57,10 @@ public class QueryManager {
             newItemStatement = db.getConnection().prepareStatement("INSERT INTO "
                     + "item(description,itemname,price)"
                     + " VALUES(?,?,?);");
+            removeItemStatement = db.getConnection().prepareStatement("DELETE FROM"
+                    + " item WHERE itemname = ?"
+                    + " AND description = ?"
+                    + " AND price = ?;");
             getListedItemsStatement = db.getConnection().prepareStatement("SELECT * FROM listeditem;");
             newListedItemStatement = db.getConnection().prepareStatement("INSERT INTO "
                     + "listeditem(itemid, seller)"
@@ -222,10 +227,20 @@ public class QueryManager {
                 removeListedItemStatement.setFloat(2, price);
                 removeListedItemStatement.setString(3, descr);
                 removeListedItemStatement.setString(4, user);
-                removeListedItemStatement.executeUpdate();
+                removeListedItemStatement.executeUpdate();                
             }
             catch(SQLException e){
                 e.printStackTrace();
+            }
+            try{
+                removeItemStatement.setString(1, itemname);
+                removeItemStatement.setString(2, descr);
+                removeItemStatement.setFloat(3, price);
+                removeItemStatement.executeUpdate();
+            }
+            catch(SQLException e2){
+                System.out.println("Tried to delete a item that's referenced"
+                        + "by a row in another table");
             }
         }
     }
@@ -340,6 +355,16 @@ public ArrayList<SoldItem> getSold() throws RemoteException{
             }
             catch(SQLException e){
                 e.printStackTrace();
+            }
+                        try{
+                removeItemStatement.setString(1, itemname);
+                removeItemStatement.setString(2, "wish");
+                removeItemStatement.setFloat(3, price);
+                removeItemStatement.executeUpdate();
+            }
+            catch(SQLException e2){
+                System.out.println("Tried to delete a item that's referenced"
+                        + "by a row in another table");
             }
         }
     } 
