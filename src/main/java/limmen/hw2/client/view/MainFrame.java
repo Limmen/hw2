@@ -45,6 +45,9 @@ public class MainFrame extends JFrame {
         pack();
         setLocationRelativeTo(null);    // centers on screen
         setVisible(true);
+        contr.updateLog();
+        contr.updateBought();
+        contr.updateSold();
     }
     private JMenuBar createMenu(){
         JMenuBar menuBar = new JMenuBar();

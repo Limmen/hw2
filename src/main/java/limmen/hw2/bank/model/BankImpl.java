@@ -62,4 +62,8 @@ public class BankImpl extends UnicastRemoteObject implements Bank {
     private boolean hasAccount(String name) throws RemoteException {
         return qm.findAccount(name) != null;
     }
+    void shutDown(){
+        qm.cleanUp();
+        db.disconnect();        
+    }
 }

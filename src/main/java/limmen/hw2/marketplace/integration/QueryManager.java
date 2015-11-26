@@ -240,7 +240,7 @@ public class QueryManager {
             }
             catch(SQLException e2){
                 System.out.println("Tried to delete a item that's referenced"
-                        + "by a row in another table");
+                        + " by a row in another table");
             }
         }
     }
@@ -364,7 +364,7 @@ public ArrayList<SoldItem> getSold() throws RemoteException{
             }
             catch(SQLException e2){
                 System.out.println("Tried to delete a item that's referenced"
-                        + "by a row in another table");
+                        + " by a row in another table");
             }
         }
     } 
@@ -433,6 +433,29 @@ public ArrayList<SoldItem> getSold() throws RemoteException{
             }
         }
         return pw;
+    }
+    public void cleanUp(){
+        try{
+            getItemsStatement.close();
+            getItemIDStatement.close();
+            getItemDataStatement.close();
+            newItemStatement.close();
+            removeItemStatement.close();
+            getListedItemsStatement.close();
+            newListedItemStatement.close();
+            removeListedItemStatement.close();
+            newSoldItemStatement.close();
+            getSoldStatement.close();
+            getWishesStatement.close();
+            newWishStatement.close();
+            removeWishStatement.close();
+            getUsersStatement.close();
+            newUserStatement.close();
+            getUserPasswordStatement.close();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
     }
     
 }

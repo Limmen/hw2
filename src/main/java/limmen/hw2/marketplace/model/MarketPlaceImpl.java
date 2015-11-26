@@ -55,8 +55,8 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
                 Client c = getClient(seller);
                 if(c != null)
                     c.itemNotification(i.getItem().getName(), i.getItem().getPrice(), client);
-                qm.removeListedItem(name, descr, price, seller);
                 qm.newSoldItem(client.getName(), seller, i.getItem().getId());
+                qm.removeListedItem(name, descr, price, seller);                
             }
             else
                 l.add(i);
@@ -107,12 +107,6 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
     public synchronized void wish(String name, float price,  Client client) throws RemoteException {
         qm.newWish(name, price, client.getName());
     }
-  /*  
-    @Override
-    public synchronized ArrayList<Client> listClients() throws RemoteException {
-        return clients;
-    }
-   */ 
     @Override
     public synchronized ArrayList<Wish> getWishes(Client client) throws RemoteException {
         ArrayList<Wish> wishes = qm.getWishes();
@@ -201,5 +195,9 @@ public class MarketPlaceImpl extends UnicastRemoteObject implements MarketPlace 
             }
         }
         return false;
+    }
+    void shutDown(){
+        qm.cleanUp();
+        db.disconnect();
     }
 }

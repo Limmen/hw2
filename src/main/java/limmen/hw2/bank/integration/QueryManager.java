@@ -186,5 +186,17 @@ public class QueryManager {
             }
         }
     }
+    public void cleanUp(){
+        try{
+            createAccountStatement.close();
+            findAccountStatement.close();
+            deleteAccountStatement.close();
+            updateBalanceStatement.close();
+            getBalanceStatement.close();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
 

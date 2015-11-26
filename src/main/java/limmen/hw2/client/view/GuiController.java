@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -233,9 +234,9 @@ public class GuiController {
     
     class RegisterListener implements ActionListener {
         private final JTextField nameField;
-        private final JTextField passwordField;
+        private final JPasswordField passwordField;
         
-        RegisterListener(JTextField nameField, JTextField passwordField){
+        RegisterListener(JTextField nameField, JPasswordField passwordField){
             this.nameField = nameField;
             this.passwordField = passwordField;
         }
@@ -261,9 +262,9 @@ public class GuiController {
     }
     class LoginListener implements ActionListener {
         private final JTextField nameField;
-        private final JTextField passwordField;
+        private final JPasswordField passwordField;
         
-        LoginListener(JTextField nameField, JTextField passwordField){
+        LoginListener(JTextField nameField, JPasswordField passwordField){
             this.nameField = nameField;
             this.passwordField = passwordField;
         }
@@ -297,9 +298,9 @@ public class GuiController {
             new MarketWorker(marketobj,new MarketCommand(MarketCommandName.logout, client), contr).execute();
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
-                public void run() {
-                    mainFrame.dispose();
+                public void run() {                    
                     startFrame.setVisible(true);
+                    mainFrame.dispose();
                 }
             });
             

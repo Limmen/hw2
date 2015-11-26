@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
@@ -48,7 +49,7 @@ public class StartFrame extends JFrame {
     }
     private class RegisterPanel extends JPanel{
         private final JTextField nameField;
-        private final JTextField passwordField;
+        private final JPasswordField passwordField;
         RegisterPanel(){
             setLayout(new MigLayout("wrap 2"));  //insets T, L, B, R
             JLabel lbl;
@@ -67,7 +68,7 @@ public class StartFrame extends JFrame {
             lbl = new JLabel("Password: ");
             lbl.setFont(PBold);
             add(lbl, "span 1");
-            passwordField = new JTextField(25);
+            passwordField = new JPasswordField(25);
             passwordField.setFont(Plain);
             add(passwordField, "span 1");
             JButton registerButton = new JButton("Register");
@@ -78,7 +79,7 @@ public class StartFrame extends JFrame {
     }
     private class LoginPanel extends JPanel{
         private final JTextField nameField;
-        private final JTextField passwordField;
+        private final JPasswordField passwordField;
         LoginPanel(){
             setLayout(new MigLayout("wrap 2"));  //insets T, L, B, R
             JLabel lbl;
@@ -94,7 +95,7 @@ public class StartFrame extends JFrame {
             lbl = new JLabel("Password: ");
             lbl.setFont(PBold);
             add(lbl, "span 1");
-            passwordField = new JTextField(25);
+            passwordField = new JPasswordField(25);
             passwordField.setFont(Plain);
             add(passwordField, "span 1");
             JButton loginButton = new JButton("Log in");
